@@ -1,0 +1,19 @@
+<div class="loginModule">
+	<div class="login">
+		<div class="message">Soda用户登录</div>
+		<div id="darkbannerwrap"></div>
+
+		<!--<form (ngSubmit)="onLogin()" #loginForm="ngForm">-->
+		<input name="username" placeholder="用户名" required="" type="email" required [(ngModel)]="username" />
+		<hr class="hr15" />
+		<input name="password" placeholder="密码" required="" type="password" required [(ngModel)]="pwd" />
+		<hr class="hr15" />
+		<input value="登录" style="width:100%;" type="submit" (click)="onLogin()" />
+		<hr class="hr20" />
+		<!--</form>-->
+
+	</div>
+
+	<div class="copyright">Copyright by <a href="" target="_blank">低碳先锋队</a>
+	</div>
+	<div>

@@ -1,0 +1,62 @@
+<div style="position:relative;">
+	<div [hidden]="mode!='driver'" class="toolbar" id="driverMode">
+        <p style="background-color:#aaa;">用户名:{{username}}</p>
+		<div class="inputBar">
+			司机ID
+			<input id="driverId" type="text" />
+			<button>搜索</button>
+		</div>
+        <div class="filterBar">
+			排序方式
+			<button>排名</button>
+			<button>变化</button>
+		</div>
+        <p style="float:right;">找到记录:{{driverList.length}}</p>
+		<div class="driverlist">
+			<table>
+				<tr class="table_colume">
+					<td>司机ID</td>
+					<td>安全指数</td>
+					<td>排名</td>
+					<td>变化</td>
+				</tr>
+				<tr *ngFor="let driver of driverList" class="table_item">
+					<td>{{driver.id}}</td>
+					<td>{{driver.rate}}</td>
+					<td>{{driver.rank}}</td>
+					<td>{{driver.change}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div [hidden]="mode!='car'" class="toolbar" id="carMode">
+		<div class="inputBar">
+			司机ID
+			<input id="driverId" type="text" />
+			<button>搜索</button>
+		</div>
+		<div class="filterBar">
+			筛选
+			<button>运行状态</button>
+			<button>在线时长</button>
+		</div>
+		<p style="float:right;">找到记录:{{companyList.length}}</p>
+		<div class="driverlist">
+			<table>
+				<tr class="table_colume">
+					<td>司机ID</td>
+					<td>安全指数</td>
+					<td>排名</td>
+					<td>变化</td>
+				</tr>
+				<tr *ngFor="let driver of driverList" class="table_item">
+					<td>{{driver.id}}</td>
+					<td>{{driver.rate}}</td>
+					<td>{{driver.rank}}</td>
+					<td>{{driver.change}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div id="map"></div>
+</div>

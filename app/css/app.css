@@ -1,0 +1,21 @@
+.navigation {
+  background-color: #4fad54;
+}
+.navigation a {
+  padding: 10px 10px;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+.navigation a {
+  color: #FFF;
+}
+.navigation a:hover {
+  color: #AED;
+}
+.navigation a.active {
+  color: #AED;
+}
+.nav_back {
+  float: right;
+}
