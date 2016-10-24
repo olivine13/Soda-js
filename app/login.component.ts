@@ -5,16 +5,14 @@ import { Logger } from './logger.service';
 import { WebService } from './web.service';
 
 @Component({
-    moduleId: module.id,
     selector: 'login-app',
-    templateUrl: "html/login.html",
-    styleUrls:["css/login.css"]
+    templateUrl: "app/html/login.html",
+    styleUrls: ["app/css/login.css"]
 })
 export class LoginComponent implements OnInit {
 
-    username:string;
-    password:string;
-    redirectUrl:string;
+    username: string;
+    password: string;
 
     constructor(private log: Logger, private webService: WebService, private router: Router) {
     }
@@ -23,20 +21,26 @@ export class LoginComponent implements OnInit {
     }
 
 
-    onLogin():void {
+    onLogin(): void {
         //根据输入用户名登录不同页面
 
         // Create a dummy session id
+        var redirectUrl: any;
+        var param: any;
         if (this.username == "123@driver.com") {
-        	this.redirectUrl ='/driver';
+            redirectUrl = '/driver';
+            param = this.username.substring(0, this.username.indexOf("@"));
         } else if (this.username == "123@gov.com") {
-        	this.redirectUrl = "/gov";
+            redirectUrl = "/gov";
+            param = "road";
         } else if (this.username == "123@company.com") {
-        	this.redirectUrl = "/company";
+            redirectUrl = "/company";
+            param = "driver";
         } else {
-        	this.redirectUrl = "/driver";
+            redirectUrl = "/driver";
+            param = {id:'00001',username:this.username.substring(0, this.username.indexOf("@"))};
         }
-        this.router.navigate([this.redirectUrl,"road"]);
+        this.router.navigate([redirectUrl, param]);
     }
 
     private randonGUID() {

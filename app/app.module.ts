@@ -11,6 +11,7 @@ import { CompanyComponent } from './company.component';
 import { DriverComponent } from './driver.component';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
+import { MapService } from './map.service';
 
 import './rx-operators';
 
@@ -54,7 +55,8 @@ import './rx-operators';
 	bootstrap: [AppComponent],
 	providers: [
 		WebService,
-		Logger
+		Logger,
+		MapService
 	]
 })
 export class AppModule { }

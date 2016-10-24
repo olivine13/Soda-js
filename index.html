@@ -8,27 +8,29 @@
 	<link rel="stylesheet" href="css/styles.css">
 	<!-- 1. Load libraries -->
 	<!-- Polyfill(s) for older browsers -->
-	<script src="node_modules/core-js/client/shim.min.js"></script>
+	<!--<script src="node_modules/core-js/client/shim.min.js"></script>-->
 	<script src="node_modules/zone.js/dist/zone.js"></script>
 	<script src="node_modules/reflect-metadata/Reflect.js"></script>
 	<script src="node_modules/systemjs/dist/system.src.js"></script>
 	<!-- 2. Configure SystemJS -->
-	<link rel="stylesheet" href="https://js.arcgis.com/4.1/esri/css/main.css">
-	<script src="https://js.arcgis.com/4.1/"></script>
-	<script>
-    	window.dojoConfig = {
-      		async: true
-    	}
-	</script>
+	<!-- 2.1load SystemJS library -->
+	<script src="node_modules/systemjs/dist/system.src.js"></script>
+
+	<!-- 2.2load Esri library -->
+	<link rel="stylesheet" href="//js.arcgis.com/4.0/esri/css/view.css">
+	<script src="//js.arcgis.com/4.0/"></script>
+
+	<!-- 2.3load esri-system-js library -->
+	<script src="node_modules/esri-system-js/dist/esriSystem.js"></script>
+
+	<!--3 Configure esri-->
 	<script src="systemjs.config.js"></script>
-	<script>
-    System.import('app').catch(function(err){ console.error(err); });
-	</script>
 </head>
-<!-- 3. Display the application -->
+<!-- 4. Display the application -->
 
 <body>
 	<my-app>Loading...</my-app>
+	<script src="app/load.js"></script>
 </body>
 
 </html>

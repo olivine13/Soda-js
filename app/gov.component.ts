@@ -1,18 +1,17 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-// import { HomeViewModel, topic } from 'esri-mods';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
+import { MapService } from './map.service';
 import { SystemInfo } from './model/system-info';
 import { Road } from './model/road';
 import { Company } from './model/company';
 
 @Component({
-    moduleId: module.id,
     selector: 'gov-app',
-    templateUrl: "html/gov.html",
-    styleUrls: ["css/gov.css"]
+    templateUrl: "app/html/gov.html",
+    styleUrls: ["app/css/gov.css"]
 })
 export class GovComponent implements OnInit {
 
@@ -21,11 +20,11 @@ export class GovComponent implements OnInit {
     roadList: Road[];
     companyList: Company[];
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute) {
+    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute,private _mapService:MapService) {
     }
 
     ngOnInit() {
-        this.initMap();
+        this._mapService.initMap("map");
         this.route.params.forEach((params: Params) => {
             this.mode = params['mode'];
         });
@@ -36,38 +35,6 @@ export class GovComponent implements OnInit {
                 this.weather = weather;
                 this.getData();
             })
-    }
-
-    initMap(): void {
-
-        // window.dojoRequire(["esri/Map",
-        //     "esri/views/MapView",
-        //     "esri/layers/MapImageLayer",
-        //     "dojo/ready"
-        // ], function (Map, MapView, MapImageLayer) {
-        //     var map = new Map({
-        //         basemap: "streets"
-        //     });
-        //     // Listen for any layer being added or removed in the Map
-        //     map.allLayers.on("change", function (event) {
-        //         console.log("Layer added: ", event.added);
-        //         console.log("Layer removed: ", event.removed);
-        //         console.log("Layer moved: ", event.moved);
-        //     });
-        //     var layer = new MapImageLayer({
-        //         url: "http://222.73.7.71/arcgis/rest/services/test/MapServer"
-        //     });
-        //     map.add(layer);
-        //     var view = new MapView({
-        //         container: "map",
-        //         map: map
-        //     });
-        //     var viewProperties = {
-        //         center: [120, 30],
-        //         zoom: 6
-        //     };
-        //     view.set(viewProperties);
-        // });
     }
 
     getData(): void {

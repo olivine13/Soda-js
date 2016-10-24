@@ -6,11 +6,12 @@ export class Road {
 }
 
 export class RoadBean {
-	id:string;
-	
-	name: string;
 
 	latitude: number;
 
 	lontitude: number;
+
+	rate:number;
+
+	constructor(public id:string,public name:string){}
 }

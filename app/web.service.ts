@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
-import { Logger } from './logger.service'
-import { Road } from './model/road';
+import { Logger } from './logger.service';
+import { Road,RoadBean } from './model/road';
 import { SystemInfo } from './model/system-info';
 import { Driver } from './model/driver';
 import { Company } from './model/company';
@@ -42,9 +42,16 @@ export class WebService {
 		]);
 	}
 
-	// getDriver(id): Promise<Driver> {
-	// 	return null;
-	// }
+	getDriver(id): Observable<Driver> {
+		var driver = new Driver(id,87,1,1,"online",10,"00001");
+		var road = new RoadBean("00001","共和-鲁班");
+		road.rate = 80;
+		driver.addRoad(road);
+		var road = new RoadBean("00002","延河-鲁班");
+		road.rate = 67;
+		driver.addRoad(road);
+		return Observable.of(driver);
+	}
 
 	getDrivers(): Observable<Driver[]> {
 		var test: Driver[];
