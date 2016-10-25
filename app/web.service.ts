@@ -58,7 +58,7 @@ export class WebService {
 	}
 
 	getDrivers(): Observable<Driver[]> {
-		var test: Driver[]=[];
+		var test: Driver[] = [];
 		for (let i = 1; i < 10; i++) {
 			test.push(new Driver("0000" + i, 80 + i, i, i, "在线", 10, "0000" + i));
 		}
@@ -68,7 +68,7 @@ export class WebService {
 	getCars(): Observable<Car[]> {
 		var list: Car[] = [];
 		for (var i = 0; i < 50; i++) {
-			var car:Car;
+			var car: Car;
 			if (i % 2 == 0) {
 				car = new Car("000" + i, "0000" + i, "沪AA00" + i, 121 + 0.01 * i, 31 + 0.01 * i, true);
 				car.speed = 25 + i;
@@ -79,6 +79,6 @@ export class WebService {
 
 			list.push(car);
 		}
-		return Observable.of(list;
+		return Observable.of(list);
 	}
 }

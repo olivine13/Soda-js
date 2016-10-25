@@ -10,7 +10,7 @@ import { Car } from './model/car';
 @Component({
     selector: 'company-app',
     templateUrl: "app/html/company.html",
-    styleUrls: ["app/css/company.css"]
+    styleUrls: ["app/css/app.css"]
 })
 export class CompanyComponent implements OnInit {
 
@@ -25,9 +25,12 @@ export class CompanyComponent implements OnInit {
 
     ngOnInit() {
         this._mapService.initMap("map");
-        this.route.queryParams.forEach((params: Params) => {
-            this.mode = params['mode'];
-        });
+
+        this.route.queryParams
+            .map(params => {
+                console.debug(params['mode']);
+                return params['mode'] || 'None';})
+            .subscribe(mode => this.mode = mode);
 
         this.webService.getDrivers()
             .subscribe(drivers => {
