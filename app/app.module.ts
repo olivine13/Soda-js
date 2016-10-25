@@ -40,7 +40,7 @@ import './rx-operators';
 				component: GovComponent
 			},
 			{
-				path: "company/:mode",
+				path: "company",
 				component: CompanyComponent
 			}
 		])

@@ -1,4 +1,4 @@
-import { RoadBean } from './road'
+import { RoadBean } from './road';
 
 export class Driver {
 

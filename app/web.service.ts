@@ -20,13 +20,17 @@ export class WebService {
 	}
 
 	getRoads(date): Observable<Road[]> {
-		return Observable.of([
-			new Road('0001', '共和-鲁班', 80),
-			new Road('0002', '嘉定-徐汇', 82),
-			new Road('0003', '武定-南站', 75),
-			new Road('0004', '中山-莘庄', 86),
-			new Road('0005', '西站-金山', 81)
-		]);
+		var list: Road[] = [];
+		for (var i = 0; i < 50; i++) {
+			list.push(new Road('000' + i, '共和-鲁班', 80 + i));
+		}
+		return Observable.of(list);
+		// return Observable.of([
+		// 	new Road('0002', '嘉定-徐汇', 82),
+		// 	new Road('0003', '武定-南站', 75),
+		// 	new Road('0004', '中山-莘庄', 86),
+		// 	new Road('0005', '西站-金山', 81)
+		// ]);
 	}
 
 	// getRoadPath(date, start, end): Promise<Road> {
@@ -54,14 +58,27 @@ export class WebService {
 	}
 
 	getDrivers(): Observable<Driver[]> {
-		var test: Driver[];
+		var test: Driver[]=[];
 		for (let i = 1; i < 10; i++) {
 			test.push(new Driver("0000" + i, 80 + i, i, i, "在线", 10, "0000" + i));
 		}
 		return Observable.of(test);
 	}
 
-	// getCar(): Promise<Car> {
-	// 	return null;
-	// }
+	getCars(): Observable<Car[]> {
+		var list: Car[] = [];
+		for (var i = 0; i < 50; i++) {
+			var car:Car;
+			if (i % 2 == 0) {
+				car = new Car("000" + i, "0000" + i, "沪AA00" + i, 121 + 0.01 * i, 31 + 0.01 * i, true);
+				car.speed = 25 + i;
+			} else {
+				car = new Car("000" + i, "0000" + i, "沪BB00" + i, 121.5 - 0.03 * i, 31.6 - 0.02 * i, false);
+				car.speed = 0;
+			}
+
+			list.push(car);
+		}
+		return Observable.of(list;
+	}
 }

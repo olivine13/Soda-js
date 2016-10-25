@@ -19,3 +19,46 @@
 .nav_back {
   float: right;
 }
+.toolbar {
+  width: 300px;
+  height: 100%;
+  padding: 5px;
+  float: left;
+  background-color: transparent;
+  border-color: #04f;
+  border-style: solid;
+  border-width: 1px;
+  overflow: auto;
+}
+.toolbar .table thead {
+  -webkit-text-fill-color: #fff;
+  background-color: #4b87cb;
+}
+.toolbar .input-group {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.rate{
+    position: absolute;
+    min-width: 150px;
+    top: 0px;
+    right: 0px;
+    background-color: #fff;
+    border-color: #444;
+    border-style: solid;
+    border-width: 1px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.rate p{
+    margin-top: 4px;
+    margin-bottom: 4px;
+    -webkit-text-fill-color: #fff;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+#map{
+    height: 100%;
+    width: auto;
+}

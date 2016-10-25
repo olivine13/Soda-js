@@ -1,13 +1,7 @@
-.toolbar{
-    width: 270px;
-    float: left;
-    background-color: #fff;
-    border-color: #04f;
-    border-style: solid;
-    border-width: 1px;
-}
 .toolbar .weatherBar{
     float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 .toolbar .weatherBar ul{
     margin: 0;
@@ -17,6 +11,14 @@
 .toolbar .weatherBar li{
     float: left;
     margin: 1px;
+}
+/*.toolbar{
+    width: 270px;
+    float: left;
+    background-color: #fff;
+    border-color: #04f;
+    border-style: solid;
+    border-width: 1px;
 }
 .toolbar .inputBar {
     margin-top: 50px;
@@ -59,27 +61,4 @@
     -webkit-text-fill-color: #fff;
     background-color: #4b87cb;
 }
-.rate{
-    position: absolute;
-    min-width: 150px;
-    top: 0px;
-    right: 0px;
-    background-color: #fff;
-    border-color: #444;
-    border-style: solid;
-    border-width: 1px;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-.rate p{
-    margin-top: 4px;
-    margin-bottom: 4px;
-    -webkit-text-fill-color: #fff;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 20px;
-}
-#map{
-    height: 100%;
-    width: auto;
-}
+#*/

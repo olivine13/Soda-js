@@ -1,5 +1,5 @@
 <div style="position:relative;">
-	<div [hidden]="mode!='road'" class="toolbar" id="roadMode">
+	<div [hidden]="mode!='road'" class="toolbar">
 		<div class="timeBar">
 			<img src="app/images/weekday.png" />
 		</div>
@@ -13,50 +13,64 @@
 				<li><img src="app/images/weather5.png" /></li>
 			</ul>
 		</div>
-		<div class="inputBar">
-			路段名称
-			<input id="roadname" type="text" />
-			<button class="btn btn-default">确定</button>
+		<div class="input-group">
+			<input name="roadname" required [(ngModel)]="roadname" class="form-control" type="text" placeholder="请输入路段名称">
+			<span class="input-group-btn">
+				<button (click)="onShowRoad()" class="btn btn-default" type="button">确定</button>
+			</span>
 		</div>
-		<div class="roadlist">
-			<table>
-				<tr class="table_colume">
-					<td>路段ID</td>
-					<td>路段名称</td>
-					<td>安全指数</td>
-				</tr>
-				<tr *ngFor="let road of roadList" class="table_item">
-					<td>{{road.id}}</td>
-					<td>{{road.name}}</td>
-					<td>{{road.rate}}</td>
-				</tr>
+		<div>
+			<table class="table table-hover">
+				<caption>路段安全指数</caption>
+				<thead>
+					<tr>
+						<th>路段ID</th>
+						<th>路段名称</th>
+						<th>安全指数</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let road of roadList">
+						<td>{{road.id}}</td>
+						<td>{{road.name}}</td>
+						<td>{{road.rate}}</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>
 	<div [hidden]="mode!='company'" class="toolbar" id="companyMode">
-		<div class="inputBar">
-			企业名称
-			<input id="company" type="text" />
-			<button>搜索</button>
+		<div class="input-group">
+			<input name="companyname" required [(ngModel)]="companyname" class="form-control" type="text" placeholder="请输入企业名称">
+			<span class="input-group-btn">
+				<button (click)="onShowCompany()" class="btn btn-default" type="button">搜索</button>
+			</span>
 		</div>
-		<div class="filterBar">
-			排序方式
-			<button>安全指数</button>
-			<button>搜索</button>
+		<span class="label label-primary">排序方式</span>
+		<div class="btn-group">
+			<button (click)="onSortCompany(0)" type="button" class="btn btn-default">安全指数</button>
+			<button (click)="onSortCompany(1)" type="button" class="btn btn-default">车辆数</button>
 		</div>
+		<br/>
+		<br/>
 		<p style="float:right;">找到记录:{{companyList.length}}</p>
-		<div class="companyList">
-			<table>
-				<tr class="table_colume">
-					<td>路段ID</td>
-					<td>路段名称</td>
-					<td>安全指数</td>
-				</tr>
-				<tr *ngFor="let company of companyList" class="table_item">
-					<td>{{company.name}}</td>
-					<td>{{company.rate}}</td>
-					<td>{{company.accident}}</td>
-				</tr>
+		<div>
+			<table class="table table-hover">
+				<caption>企业安全指数</caption>
+				<thead>
+					<tr>
+						<th>企业名称</th>
+						<th>安全指数</th>
+						<th>事故数</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let company of companyList">
+						<td>{{company.name}}</td>
+						<td>{{company.rate}}</td>
+						<td>{{company.accident}}</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>

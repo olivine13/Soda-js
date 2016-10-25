@@ -1,60 +1,74 @@
 <div style="position:relative;">
-	<div [hidden]="mode!='driver'" class="toolbar" id="driverMode">
+	<div [hidden]="mode!='driver'" class="toolbar">
 		<p style="background-color:#aaa;">用户名:{{username}}</p>
-		<div class="inputBar">
-			司机ID
-			<input id="driverId" type="text" />
-			<button>搜索</button>
+		<div class="input-group">
+			<input name="driverId" required [(ngModel)]="driverId" class="form-control" type="text" placeholder="请输入司机ID">
+			<span class="input-group-btn">
+				<button (click)="onShowDriver()" class="btn btn-default" type="button">搜索</button>
+			</span>
 		</div>
-		<div class="filterBar">
-			排序方式
-			<button>排名</button>
-			<button>变化</button>
+		<span class="label label-primary">排序方式</span>
+		<div class="btn-group">
+			<button (click)="onSortDrivers(0)" type="button" class="btn btn-default">排名</button>
+			<button (click)="onSortDrivers(1)" type="button" class="btn btn-default">变化</button>
 		</div>
+		<br/>
+		<br/>
 		<p style="float:right;">找到记录:{{driverList.length}}</p>
-		<div class="driverlist">
-			<table>
-				<tr class="table_colume">
-					<td>司机ID</td>
-					<td>安全指数</td>
-					<td>排名</td>
-					<td>变化</td>
-				</tr>
-				<tr *ngFor="let driver of driverList" class="table_item">
-					<td>{{driver.id}}</td>
-					<td>{{driver.rate}}</td>
-					<td>{{driver.rank}}</td>
-					<td>{{driver.change}}</td>
-				</tr>
+		<div>
+			<table class="table table-hover">
+				<caption>司机安全指数</caption>
+				<thead>
+					<tr>
+						<th>司机ID</th>
+						<th>安全指数</th>
+						<th>排名</th>
+						<th>变化</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let driver of driverList">
+						<td>{{driver.id}}</td>
+						<td>{{driver.rate}}</td>
+						<td>{{driver.rank}}</td>
+						<td>{{driver.change}}</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>
-	<div [hidden]="mode!='car'" class="toolbar" id="carMode">
-		<div class="inputBar">
-			司机ID
-			<input id="driverId" type="text" />
-			<button>搜索</button>
+	<div [hidden]="mode!='car'" class="toolbar">
+		<div class="input-group">
+			<input name="driverId" required [(ngModel)]="driverId" class="form-control" type="text" placeholder="请输入司机ID">
+			<span class="input-group-btn">
+				<button (click)="onShowCar(driverId)" class="btn btn-default" type="button">搜索</button>
+			</span>
 		</div>
-		<div class="filterBar">
-			筛选
-			<button>运行状态</button>
-			<button>在线时长</button>
+		<span class="label label-primary">排序方式</span>
+		<div class="btn-group">
+			<button (click)="onSortCars(0)" type="button" class="btn btn-default">运行状态</button>
+			<button (click)="onSortCars(1)" type="button" class="btn btn-default">在线时长</button>
 		</div>
-		<p style="float:right;">找到记录:{{companyList.length}}</p>
-		<div class="driverlist">
-			<table>
-				<tr class="table_colume">
-					<td>司机ID</td>
-					<td>安全指数</td>
-					<td>排名</td>
-					<td>变化</td>
-				</tr>
-				<tr *ngFor="let driver of driverList" class="table_item">
-					<td>{{driver.id}}</td>
-					<td>{{driver.rate}}</td>
-					<td>{{driver.rank}}</td>
-					<td>{{driver.change}}</td>
-				</tr>
+		<br/>
+		<br/>
+		<p style="float:right;">找到记录:{{driverList.length}}</p>
+		<div>
+			<table class="table table-hover">
+				<caption>车辆运行状况</caption>
+				<thead>
+					<tr>
+						<th>司机ID</th>
+						<th>运行状态</th>
+						<th>在线时长</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let car of carList">
+						<td>{{car.driverId}}</td>
+						<td>{{driver.status}}</td>
+						<td>{{driver.onlinetime}}</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>

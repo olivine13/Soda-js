@@ -16,13 +16,16 @@ export class CompanyComponent implements OnInit {
 
     mode: string;
     driverList: Driver[];
+    carList: Car[];
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute,private _mapService:MapService) {
+    driverId: string;
+
+    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute, private _mapService: MapService) {
     }
 
     ngOnInit() {
         this._mapService.initMap("map");
-        this.route.params.forEach((params: Params) => {
+        this.route.queryParams.forEach((params: Params) => {
             this.mode = params['mode'];
         });
 
@@ -30,5 +33,33 @@ export class CompanyComponent implements OnInit {
             .subscribe(drivers => {
                 this.driverList = drivers;
             });
+
+        this.webService.getCars();
+    }
+
+    onShowDriver(): void {
+        if (this.driverId) {
+            console.debug(this.driverId);
+        }
+    }
+
+    onSortDrivers(type): void {
+        this.driverList.sort(
+            type == 0 ?
+                (n1, n2) => n1.rank - n2.rank : (n1, n2) => n1.change - n2.change
+        );
+    }
+
+    onShowCar(): void {
+        if (this.driverId) {
+            console.debug(this.driverId);
+        }
+    }
+
+    onSortCars(type): void {
+        this.carList.sort(
+            type == 0 ?
+                (n1, n2) => { return n1.empty ? 0 : 1 } : (n1, n2) => n1.onlinetime - n2.onlinetime
+        );
     }
 }

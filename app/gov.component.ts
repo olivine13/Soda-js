@@ -10,8 +10,8 @@ import { Company } from './model/company';
 
 @Component({
     selector: 'gov-app',
-    templateUrl: "app/html/gov.html"
-    // styleUrls: ["app/css/gov.css"]
+    templateUrl: "app/html/gov.html",
+    styleUrls: ["app/css/gov.css","app/css/app.css"]
 })
 export class GovComponent implements OnInit {
 
@@ -20,7 +20,10 @@ export class GovComponent implements OnInit {
     roadList: Road[];
     companyList: Company[];
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute,private _mapService:MapService) {
+    companyname:string;
+    roadname:string;
+
+    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute, private _mapService: MapService) {
     }
 
     ngOnInit() {
@@ -46,6 +49,24 @@ export class GovComponent implements OnInit {
             .subscribe(companyList => {
                 this.companyList = companyList;
             });
+    }
+
+    onShowRoad():void {
+        if(this.roadname) {
+            console.debug(this.roadname);
+        }
+    }
+
+    onShowCompany():void {
+        if(this.companyname) {
+            //显示当前搜索企业
+            console.debug(this.companyname);
+        }
+    }
+
+    onSortCompany(type): void {
+        //如果为0按安全指数排序，否则按事故数排序
+        this.companyList.sort(type == 0 ? (n1, n2) => n1.rate - n2.rate : (n1, n2) => n1.accident - n2.accident);
     }
 
 }

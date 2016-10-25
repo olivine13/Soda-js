@@ -15,15 +15,17 @@ import { Driver } from './model/driver';
 @Component({
     selector: 'driver-app',
     templateUrl: "app/html/driver.html",
-    styleUrls: ["app/css/driver.css"]
+    styleUrls: ["app/css/app.css"]
 })
 export class DriverComponent implements OnInit {
 
-    username:string;
-    id:string;
-    driver:Driver;
+    username: string;
+    id: string;
+    driver: Driver;
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute,private _mapService:MapService) {
+    roadname: string;
+
+    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute, private _mapService: MapService) {
     }
 
     ngOnInit() {
@@ -33,8 +35,18 @@ export class DriverComponent implements OnInit {
         });
         this._mapService.initMap("map");
         this.webService.getDriver("00001")
-        .subscribe(driver=>{
-            this.driver = driver;
-        })
+            .subscribe(driver => {
+                this.driver = driver;
+            })
+    }
+
+    onShowRoad(): void {
+        if (this.roadname) {
+            console.debug(this.roadname);
+        }
+    }
+
+    onSortRoad(type): void {
+        this.driver.roadList.sort(type == 0 ? (n1, n2) => parseInt(n1.id, 10) - parseInt(n2.id, 10) : (n1, n2) => n1.rate - n2.rate);
     }
 }

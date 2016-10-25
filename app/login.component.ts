@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
@@ -27,20 +27,28 @@ export class LoginComponent implements OnInit {
         // Create a dummy session id
         var redirectUrl: any;
         var param: any;
+        var id = this.username.substring(0, this.username.indexOf("@"));
+        var username = this.username;
         if (this.username === "123@driver.com") {
             redirectUrl = '/driver';
-            param = this.username.substring(0, this.username.indexOf("@"));
+
+            let navigationExtras: NavigationExtras = {
+                queryParams: { 'id': id, 'username': username },
+                fragment: 'anchor'
+            };
+            this.router.navigate([redirectUrl], navigationExtras);
         } else if (this.username === "123@gov.com") {
             redirectUrl = "/gov";
-            param = "road";
+            param = 'road';
+
+            this.router.navigate([redirectUrl, param]);
         } else if (this.username === "123@company.com") {
-            redirectUrl = "/company";
-            param = "driver";
-        } else {
-            redirectUrl = "/driver";
-            param = { id: '00001', username: this.username.substring(0, this.username.indexOf("@")) };
+            redirectUrl = "/company"; let navigationExtras: NavigationExtras = {
+                queryParams: { 'id': id, 'username': username, 'mode': 'driver' },
+                fragment: 'anchor'
+            };
+            this.router.navigate([redirectUrl], navigationExtras);
         }
-        this.router.navigate([redirectUrl, param]);
     }
 
     private randonGUID() {
