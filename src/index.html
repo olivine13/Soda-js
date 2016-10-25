@@ -5,23 +5,39 @@
 	<base href="/">
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/styles.css">
+	<style>
+		h1 {
+			color: #369;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 250%;
+		}
+		h2,
+		h3 {
+			color: #444;
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: lighter;
+		}
+		
+		body {
+			margin: 0px;
+		}
+	</style>
 	<!-- 1. Load libraries -->
 	<!-- Polyfill(s) for older browsers -->
 	<!--<script src="node_modules/core-js/client/shim.min.js"></script>-->
-	<script src="node_modules/zone.js/dist/zone.js"></script>
-	<script src="node_modules/reflect-metadata/Reflect.js"></script>
-	<script src="node_modules/systemjs/dist/system.src.js"></script>
+	<script src="lib/zone.js/dist/zone.js"></script>
+	<script src="lib/reflect-metadata/Reflect.js"></script>
+	<script src="lib/systemjs/dist/system.src.js"></script>
 	<!-- 2. Configure SystemJS -->
 	<!-- 2.1load SystemJS library -->
-	<script src="node_modules/systemjs/dist/system.src.js"></script>
+	<script src="lib/systemjs/dist/system.src.js"></script>
 
 	<!-- 2.2load Esri library -->
 	<link rel="stylesheet" href="//js.arcgis.com/4.0/esri/css/view.css">
 	<script src="//js.arcgis.com/4.0/"></script>
 
 	<!-- 2.3load esri-system-js library -->
-	<script src="node_modules/esri-system-js/dist/esriSystem.js"></script>
+	<script src="lib/esri-system-js/dist/esriSystem.js"></script>
 
 	<!--3 Configure esri-->
 	<script src="systemjs.config.js"></script>

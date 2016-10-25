@@ -5,9 +5,10 @@ import { Logger } from './logger.service';
 import { WebService } from './web.service';
 
 @Component({
+    moduleId:module.id,
     selector: 'login-app',
-    templateUrl: "app/html/login.html",
-    styleUrls: ["app/css/login.css"]
+    templateUrl: "html/login.html",
+    styleUrls: ["css/login.css"]
 })
 export class LoginComponent implements OnInit {
 

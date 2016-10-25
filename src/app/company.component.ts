@@ -8,16 +8,17 @@ import { Driver } from './model/driver';
 import { Car } from './model/car';
 
 @Component({
+    moduleId: module.id,
     selector: 'company-app',
-    templateUrl: "app/html/company.html",
-    styleUrls: ["app/css/company.css"]
+    templateUrl: "html/company.html",
+    styleUrls: ["css/company.css"]
 })
 export class CompanyComponent implements OnInit {
 
     mode: string;
     driverList: Driver[];
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute,private _mapService:MapService) {
+    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute, private _mapService: MapService) {
     }
 
     ngOnInit() {

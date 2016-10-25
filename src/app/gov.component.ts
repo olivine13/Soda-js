@@ -9,9 +9,10 @@ import { Road } from './model/road';
 import { Company } from './model/company';
 
 @Component({
+    moduleId:module.id,
     selector: 'gov-app',
-    templateUrl: "app/html/gov.html",
-    styleUrls: ["app/css/gov.css"]
+    templateUrl: "html/gov.html",
+    styleUrls: ["css/gov.css"]
 })
 export class GovComponent implements OnInit {
 

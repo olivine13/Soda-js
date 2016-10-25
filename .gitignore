@@ -1,6 +1,7 @@
 *.log
 typings/
 node_modules/
+build/
 *.js
 *.js.map
 !systemjs.config.js

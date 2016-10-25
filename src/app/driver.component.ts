@@ -13,9 +13,10 @@ import { Driver } from './model/driver';
 // import MapImageLayer from 'esri/layers/MapImageLayer';
 
 @Component({
+    moduleId:module.id,
     selector: 'driver-app',
-    templateUrl: "app/html/driver.html",
-    styleUrls: ["app/css/driver.css"]
+    templateUrl: "html/driver.html",
+    styleUrls: ["css/driver.css"]
 })
 export class DriverComponent implements OnInit {
 

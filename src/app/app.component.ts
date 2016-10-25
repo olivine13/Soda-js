@@ -5,6 +5,7 @@ import { Logger } from './logger.service';
 import { WebService } from './web.service';
 
 @Component({
+	moduleId:module.id,
 	selector: 'my-app',
 	template: `
 		<nav class="navigation">
@@ -14,7 +15,7 @@ import { WebService } from './web.service';
 		</nav>
         <router-outlet></router-outlet>
 	`,
-	styleUrls: ["app/css/app.css"]
+	styleUrls: ["css/app.css"]
 })
 export class AppComponent implements OnInit {
 
