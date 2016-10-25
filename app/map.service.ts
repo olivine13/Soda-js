@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
 
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';

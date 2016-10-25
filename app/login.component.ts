@@ -27,18 +27,18 @@ export class LoginComponent implements OnInit {
         // Create a dummy session id
         var redirectUrl: any;
         var param: any;
-        if (this.username == "123@driver.com") {
+        if (this.username === "123@driver.com") {
             redirectUrl = '/driver';
             param = this.username.substring(0, this.username.indexOf("@"));
-        } else if (this.username == "123@gov.com") {
+        } else if (this.username === "123@gov.com") {
             redirectUrl = "/gov";
             param = "road";
-        } else if (this.username == "123@company.com") {
+        } else if (this.username === "123@company.com") {
             redirectUrl = "/company";
             param = "driver";
         } else {
             redirectUrl = "/driver";
-            param = {id:'00001',username:this.username.substring(0, this.username.indexOf("@"))};
+            param = { id: '00001', username: this.username.substring(0, this.username.indexOf("@")) };
         }
         this.router.navigate([redirectUrl, param]);
     }

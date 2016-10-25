@@ -10,8 +10,8 @@ import { Company } from './model/company';
 
 @Component({
     selector: 'gov-app',
-    templateUrl: "app/html/gov.html",
-    styleUrls: ["app/css/gov.css"]
+    templateUrl: "app/html/gov.html"
+    // styleUrls: ["app/css/gov.css"]
 })
 export class GovComponent implements OnInit {
 

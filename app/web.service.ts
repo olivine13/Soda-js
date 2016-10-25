@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import { Logger } from './logger.service';
-import { Road,RoadBean } from './model/road';
+import { Road, RoadBean } from './model/road';
 import { SystemInfo } from './model/system-info';
 import { Driver } from './model/driver';
 import { Company } from './model/company';
@@ -43,11 +43,11 @@ export class WebService {
 	}
 
 	getDriver(id): Observable<Driver> {
-		var driver = new Driver(id,87,1,1,"online",10,"00001");
-		var road = new RoadBean("00001","共和-鲁班");
+		var driver = new Driver(id, 87, 1, 1, "online", 10, "00001");
+		var road = new RoadBean("00001", "共和-鲁班");
 		road.rate = 80;
 		driver.addRoad(road);
-		var road = new RoadBean("00002","延河-鲁班");
+		road = new RoadBean("00002", "延河-鲁班");
 		road.rate = 67;
 		driver.addRoad(road);
 		return Observable.of(driver);
@@ -56,7 +56,7 @@ export class WebService {
 	getDrivers(): Observable<Driver[]> {
 		var test: Driver[];
 		for (let i = 1; i < 10; i++) {
-			test.push(new Driver("0000"+i,80+i,i,i,"在线",10,"0000"+i));
+			test.push(new Driver("0000" + i, 80 + i, i, i, "在线", 10, "0000" + i));
 		}
 		return Observable.of(test);
 	}
