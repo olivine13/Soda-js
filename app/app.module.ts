@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login.component';
@@ -12,6 +13,7 @@ import { DriverComponent } from './driver.component';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
 import { MapService } from './map.service';
+import { AlertManager } from './alert.manager';
 
 import './rx-operators';
 
@@ -21,6 +23,7 @@ import './rx-operators';
 		FormsModule,
 		HttpModule,
 		JsonpModule,
+		NgbModule.forRoot(),
 		RouterModule.forRoot([
 			{
 				path: '',
@@ -56,7 +59,8 @@ import './rx-operators';
 	providers: [
 		WebService,
 		Logger,
-		MapService
+		MapService,
+		AlertManager
 	]
 })
 export class AppModule { }

@@ -1,53 +1,20 @@
-.toolbar{
-    width: 270px;
-    float: left;
-    background-color: #fff;
-    border-color: #04f;
-    border-style: solid;
-    border-width: 1px;
-}
-.toolbar .inputBar {
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-.toolbar .inputBar input{
-    margin: 0px;
-    padding: 0px;
-    min-width: 120px;
-}
-.toolbar .inputBar button{
-    min-width: 50px;
-    background-color: #fff;
-    border-color: 0x068;
-    border-style: solid;
-    border-width: 1px;
-    margin: 0px;
-    padding: 0px;
-}
-.toolbar table{
-    table-layout: fixed;
+.result{
+    padding-left: 300px;
+    bottom: 0px;
     width: 100%;
-    border-color: 0x000;
-    border-style: solid;
-    border-width: 1px;
-}
-.toolbar table td{
-    padding: 5px;
-}
-.toolbar .table_colume td {
+    overflow: scroll;
+    position: absolute;
     -webkit-text-fill-color: #fff;
-    background-color: #4b87cb;
 }
-.toolbar .table_item td {
-    background-color: #c9d5eb;
-}
-.toolbar .filterBar button{
-    float: right;
-    margin-right: 10px;
+.result thead{
     -webkit-text-fill-color: #fff;
-    background-color: #4b87cb;
 }
-#map{
-    height: 100%;
-    width: auto;
+.result tbody{
+    -webkit-text-fill-color: #000;
+}
+#driverInfo table th {
+    background-color: #4fad54;
+}
+#carInfo table th {
+    background-color: #ff6d2a;
 }

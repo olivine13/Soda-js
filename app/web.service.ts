@@ -22,7 +22,7 @@ export class WebService {
 	getRoads(date): Observable<Road[]> {
 		var list: Road[] = [];
 		for (var i = 0; i < 50; i++) {
-			list.push(new Road('000' + i, '共和-鲁班', 80 + i));
+			list.push(new Road('000' + i, '共和-鲁班'+i, 100 - i));
 		}
 		return Observable.of(list);
 		// return Observable.of([
@@ -47,20 +47,30 @@ export class WebService {
 	}
 
 	getDriver(id): Observable<Driver> {
+		var roadList: RoadBean[] = [];
+		for (var i = 0; i < 40; i++) {
+			var road = new RoadBean("0000" + i, "延河-鲁班" + i);
+			road.rate = 100 - i;
+			roadList.push(road);
+		}
 		var driver = new Driver(id, 87, 1, 1, "online", 10, "00001");
-		var road = new RoadBean("00001", "共和-鲁班");
-		road.rate = 80;
-		driver.addRoad(road);
-		road = new RoadBean("00002", "延河-鲁班");
-		road.rate = 67;
-		driver.addRoad(road);
+		driver.addRoadsAll(roadList);
 		return Observable.of(driver);
 	}
 
 	getDrivers(): Observable<Driver[]> {
 		var test: Driver[] = [];
-		for (let i = 1; i < 10; i++) {
-			test.push(new Driver("0000" + i, 80 + i, i, i, "在线", 10, "0000" + i));
+		//测试路段数据
+		var roadList: RoadBean[] = [];
+		for (var i = 0; i < 40; i++) {
+			var road = new RoadBean("0000" + i, "延河-鲁班" + i);
+			road.rate = 100 - i;
+			roadList.push(road);
+		}
+		for (let i = 1; i < 30; i++) {
+			var driver: Driver = new Driver("0000" + i, 80 + i, i, i, "在线", 10, "0000" + i);
+			driver.addRoadsAll(roadList);
+			test.push(driver);
 		}
 		return Observable.of(test);
 	}

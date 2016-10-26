@@ -19,4 +19,8 @@ export class Driver {
         this.roadList.push(road);
     }
 
+    addRoadsAll(road):void {
+        this.roadList = road;
+    }
+
 }

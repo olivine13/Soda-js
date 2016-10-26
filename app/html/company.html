@@ -73,34 +73,59 @@
 		</div>
 	</div>
 	<div id="map"></div>
-	<div class="result">
-		<table id="">
-			<tr class="table_colume">
-				<td>司机ID</td>
-				<td>安全指数</td>
-				<td>排名</td>
-				<td>变化</td>
-			</tr>
-			<tr *ngFor="let driver of driverList" class="table_item">
-				<td>{{driver.id}}</td>
-				<td>{{driver.rate}}</td>
-				<td>{{driver.rank}}</td>
-				<td>{{driver.change}}</td>
-			</tr>
+	<div class="rate">
+		<p style="-webkit-text-fill-color: #000">司机安全指数</p>
+		<p style="background-color:#aa0008">非常低(0-25)</p>
+		<p style="background-color:#ec1524">低(25-50)</p>
+		<p style="background-color:#fd901d">高(50-75)</p>
+		<p style="background-color:#24ba0c">非常高(75-100)</p>
+	</div>
+	<div [hidden]="selectDriver==null" class="result" id="driverInfo">
+		<table class="table table-responsive">
+			<thead>
+				<tr>
+					<th>司机ID</th>
+					<th *ngFor="let road of selectDriver?.roadList;let i = index">路段{{i+1}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="info">
+					<td>{{selectDriver?.id}}</td>
+					<td *ngFor="let road of selectDriver?.roadList">{{road.rate}}</td>
+				</tr>
+			</tbody>
 		</table>
-		<table>
-			<tr class="table_colume">
-				<td>司机ID</td>
-				<td>安全指数</td>
-				<td>排名</td>
-				<td>变化</td>
-			</tr>
-			<tr *ngFor="let driver of driverList" class="table_item">
-				<td>{{driver.id}}</td>
-				<td>{{driver.rate}}</td>
-				<td>{{driver.rank}}</td>
-				<td>{{driver.change}}</td>
-			</tr>
+	</div>
+	<div [hidden]="selectCar==null" class="result" id="carInfo">
+		<table class="table table-responsive">
+			<thead>
+				<tr>
+					<th>司机ID</th>
+					<th>车辆ID</th>
+					<th>GPS时间</th>
+					<th>经度</th>
+					<th>纬度</th>
+					<th>空车</th>
+					<th>速度</th>
+					<th>方向</th>
+					<th>刹车</th>
+					<th>高架</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="info">
+					<td>{{selectCar?.driverId}}</td>
+					<td>{{selectCar?.id}}</td>
+					<td>{{selectCar?.gpstime}}</td>
+					<td>{{selectCar?.lotitue}}</td>
+					<td>{{selectCar?.latitue}}</td>
+					<td>{{selectCar?.empty}}</td>
+					<td>{{selectCar?.speed}}</td>
+					<td>{{selectCar?.direction}}</td>
+					<td>{{selectCar?.brake}}</td>
+					<td>{{selectCar?.elevated}}</td>
+				</tr>
+			</tbody>
 		</table>
 	</div>
 </div>

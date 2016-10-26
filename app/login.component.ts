@@ -31,21 +31,18 @@ export class LoginComponent implements OnInit {
         var username = this.username;
         if (this.username === "123@driver.com") {
             redirectUrl = '/driver';
-
             let navigationExtras: NavigationExtras = {
-                queryParams: { 'id': id, 'username': username },
-                fragment: 'anchor'
+                queryParams: { 'id': id, 'username': username }
             };
             this.router.navigate([redirectUrl], navigationExtras);
         } else if (this.username === "123@gov.com") {
             redirectUrl = "/gov";
             param = 'road';
-
             this.router.navigate([redirectUrl, param]);
         } else if (this.username === "123@company.com") {
-            redirectUrl = "/company"; let navigationExtras: NavigationExtras = {
-                queryParams: { 'id': id, 'username': username, 'mode': 'driver' },
-                fragment: 'anchor'
+            redirectUrl = "/company";
+            let navigationExtras: NavigationExtras = {
+                queryParams: { 'id': id, 'username': username, 'mode': 'driver' }
             };
             this.router.navigate([redirectUrl], navigationExtras);
         }

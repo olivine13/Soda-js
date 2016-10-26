@@ -7,11 +7,12 @@ import { MapService } from './map.service';
 import { SystemInfo } from './model/system-info';
 import { Road } from './model/road';
 import { Company } from './model/company';
+import { AlertManager } from './alert.manager';
 
 @Component({
     selector: 'gov-app',
     templateUrl: "app/html/gov.html",
-    styleUrls: ["app/css/gov.css","app/css/app.css"]
+    styleUrls: ["app/css/gov.css", "app/css/app.css"]
 })
 export class GovComponent implements OnInit {
 
@@ -20,10 +21,14 @@ export class GovComponent implements OnInit {
     roadList: Road[];
     companyList: Company[];
 
-    companyname:string;
-    roadname:string;
+    companyname: string;
+    roadname: string;
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute, private _mapService: MapService) {
+    constructor(private log: Logger,
+        private webService: WebService,
+        private route: ActivatedRoute,
+        private _mapService: MapService,
+        private _alertManager: AlertManager) {
     }
 
     ngOnInit() {
@@ -37,7 +42,7 @@ export class GovComponent implements OnInit {
             .subscribe(weather => {
                 this.weather = weather;
                 this.getData();
-            })
+            });
     }
 
     getData(): void {
@@ -51,16 +56,20 @@ export class GovComponent implements OnInit {
             });
     }
 
-    onShowRoad():void {
-        if(this.roadname) {
+    onShowRoad(): void {
+        if (this.roadname) {
             console.debug(this.roadname);
+        } else {
+            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
     }
 
-    onShowCompany():void {
-        if(this.companyname) {
+    onShowCompany(): void {
+        if (this.companyname) {
             //显示当前搜索企业
             console.debug(this.companyname);
+        } else {
+            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
     }
 

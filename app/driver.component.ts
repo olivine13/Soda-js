@@ -7,6 +7,7 @@ import { MapService } from './map.service';
 import { SystemInfo } from './model/system-info';
 import { Road } from './model/road';
 import { Driver } from './model/driver';
+import { AlertManager } from './alert.manager';
 
 // import Map from 'esri/Map';
 // import MapView from 'esri/views/MapView';
@@ -25,24 +26,38 @@ export class DriverComponent implements OnInit {
 
     roadname: string;
 
-    constructor(private log: Logger, private webService: WebService, private route: ActivatedRoute, private _mapService: MapService) {
+    constructor(private log: Logger,
+        private webService: WebService,
+        private route: ActivatedRoute,
+        private _mapService: MapService,
+        private _alertManager: AlertManager) {
     }
 
     ngOnInit() {
-        this.route.params.forEach((params: Params) => {
-            this.username = params['username'];
-            this.id = params['id'];
-        });
+        this.route.queryParams
+            .subscribe(params => {
+                this.id = params['id'] || 'none';
+                this.username = params['username'] || 'none';
+            });
         this._mapService.initMap("map");
         this.webService.getDriver("00001")
             .subscribe(driver => {
                 this.driver = driver;
-            })
+            });
     }
 
     onShowRoad(): void {
         if (this.roadname) {
-            console.debug(this.roadname);
+            var flag: boolean = false;
+            this.driver.roadList.forEach(road => {
+                if (road.name === this.roadname) {
+                    flag = true;
+                    return;
+                }
+            });
+            if (!flag) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应路段' });
+        } else {
+            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
     }
 
