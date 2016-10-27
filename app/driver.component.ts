@@ -39,7 +39,8 @@ export class DriverComponent implements OnInit {
                 this.id = params['id'] || 'none';
                 this.username = params['username'] || 'none';
             });
-        this._mapService.initMap("map");
+        this._mapService.initMap("map","streets-night-vector");
+        this._mapService.showLayerByDriverId(this.driver.id);
         this.webService.getDriver("00001")
             .subscribe(driver => {
                 this.driver = driver;

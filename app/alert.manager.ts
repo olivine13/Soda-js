@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class AlertManager {
@@ -7,11 +8,14 @@ export class AlertManager {
 
     openAlert(alert: IAlert) {
         this.alerts.push(alert);
+        Observable.of(alert)
+            .delay(2000)
+            .subscribe(alert => this.closeAlert(alert));
     }
 
     closeAlert(alert: IAlert) {
         const index: number = this.alerts.indexOf(alert);
-        this.alerts.splice(index, 1);
+        if(index>=0) this.alerts.splice(index, 1);
     }
 }
 

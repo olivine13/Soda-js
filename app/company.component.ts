@@ -60,6 +60,10 @@ export class CompanyComponent implements OnInit {
                 }
             });
             if (!flag) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应司机' });
+            else {
+                //找到对应司机后，显示司机数据
+                this._mapService.showLayerByDriverId(this.driverId);
+            }
         } else {
             this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }

@@ -1,12 +1,13 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import './rx-operators';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
 import { MapService } from './map.service';
 import { SystemInfo } from './model/system-info';
 import { Road } from './model/road';
-import { Company } from './model/company';
+import { Company, ICompanyInfo } from './model/company';
 import { AlertManager } from './alert.manager';
 
 @Component({
@@ -16,6 +17,8 @@ import { AlertManager } from './alert.manager';
 })
 export class GovComponent implements OnInit {
 
+    WEEKDAY = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
+
     mode: string;
     weather: SystemInfo;
     roadList: Road[];
@@ -23,6 +26,17 @@ export class GovComponent implements OnInit {
 
     companyname: string;
     roadname: string;
+
+    selectCompany: Company;
+    rateChartOptions: Object;
+    accidentChartOptions: Object;
+
+    systemTime: Date = new Date();
+
+    //用户选择查看时间
+    time = { hour: 8, minute: 0 };
+    spinners = true;
+    weatherChecked = "sunny";
 
     constructor(private log: Logger,
         private webService: WebService,
@@ -43,6 +57,11 @@ export class GovComponent implements OnInit {
                 this.weather = weather;
                 this.getData();
             });
+
+        //显示默认图层
+        Observable.of(this)
+            .delay(1000)
+            .subscribe(a => a._mapService.showLayerByTimeWithWeather(this.time.hour, this.weatherChecked));
     }
 
     getData(): void {
@@ -56,6 +75,14 @@ export class GovComponent implements OnInit {
             });
     }
 
+    onPickTimeWithWeather(time, weather): void {
+        if (this._mapService.showLayerByTimeWithWeather(time, weather)) {
+            this._alertManager.openAlert({ id: 1, type: 'success', message: '正在刷新地图，请稍等' });
+        } else {
+            this._alertManager.openAlert({ id: 1, type: 'warning', message: '没有找到对应数据' });
+        }
+    }
+
     onShowRoad(): void {
         if (this.roadname) {
             console.debug(this.roadname);
@@ -67,8 +94,52 @@ export class GovComponent implements OnInit {
     onShowCompany(): void {
         if (this.companyname) {
             //显示当前搜索企业
-            console.debug(this.companyname);
+            var flag: boolean = false;
+            this.companyList.forEach(company => {
+                if (company.name === this.companyname) {
+                    this.selectCompany = company;
+                    //显示对应企业的图表数据
+
+                    var seriesRate = new Object;
+                    var accidentRate = new Object;
+                    this.webService.getCompanyInfo(company.id, 1, 8)
+                        .mergeMap(list => Observable.of(list))
+                        .subscribe(info => {
+                            seriesRate[0].addPoint({ info.month, info.accident });
+                        });
+                    this.rateChartOptions = {
+                        title: { text: '企业安全指数' },
+                        series: [{
+                            name: '企业安全指数历史统计',
+                            data: [
+                                [
+                                    29
+                                ]
+                            ][29.9, 71.5, 106.4, 129.2],
+                        }],
+                        credits: {
+                            href: '',
+                            text: 'by 低碳先锋队'
+                        },
+                        yAxis: {
+                            title: {
+                                text: '安全指数'
+                            }
+                        }
+                    };
+                    this.accidentChartOptions = {
+                        title: { text: '企业事故数' },
+                        series: [{
+                            data: [5, 4, 8, 6],
+                        }]
+                    };
+                    flag = true;
+                    return;
+                }
+            });
+            if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应企业' });
         } else {
+            this.selectCompany = null;
             this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
     }

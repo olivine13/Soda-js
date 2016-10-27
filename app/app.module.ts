@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { ChartModule } from 'angular2-highcharts';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login.component';
@@ -20,6 +21,7 @@ import './rx-operators';
 @NgModule({
 	imports: [
 		BrowserModule,
+		ChartModule,
 		FormsModule,
 		HttpModule,
 		JsonpModule,

@@ -6,7 +6,7 @@ import { Logger } from './logger.service';
 import { Road, RoadBean } from './model/road';
 import { SystemInfo } from './model/system-info';
 import { Driver } from './model/driver';
-import { Company } from './model/company';
+import { Company, ICompanyInfo } from './model/company';
 import { Car } from './model/car';
 
 @Injectable()
@@ -22,15 +22,9 @@ export class WebService {
 	getRoads(date): Observable<Road[]> {
 		var list: Road[] = [];
 		for (var i = 0; i < 50; i++) {
-			list.push(new Road('000' + i, '共和-鲁班'+i, 100 - i));
+			list.push(new Road('000' + i, '共和-鲁班' + i, 100 - i));
 		}
 		return Observable.of(list);
-		// return Observable.of([
-		// 	new Road('0002', '嘉定-徐汇', 82),
-		// 	new Road('0003', '武定-南站', 75),
-		// 	new Road('0004', '中山-莘庄', 86),
-		// 	new Road('0005', '西站-金山', 81)
-		// ]);
 	}
 
 	// getRoadPath(date, start, end): Promise<Road> {
@@ -39,11 +33,23 @@ export class WebService {
 
 	getCompanies(date): Observable<Company[]> {
 		return Observable.of([
-			new Company("滴滴出行", 87, 18),
-			new Company("人民优步", 76, 13),
-			new Company("易到用车", 62, 31),
-			new Company("神州租车", 89, 10)
+			new Company("00001", "滴滴出行", 87, 18),
+			new Company("00002", "人民优步", 76, 13),
+			new Company("00003", , "易到用车", 62, 31),
+			new Company("00004", "神州租车", 89, 10)
 		]);
+	}
+
+	getCompanyInfo(id, from, end): Observable<ICompanyInfo[]> {
+		var list: ICompanyInfo[] = [];
+		for (var i = from; i < end; i++) {
+			list.push({
+				month: i,
+				rate: i + 60,
+				accident: i + 20
+			});
+		}
+		return Observable.of(list);
 	}
 
 	getDriver(id): Observable<Driver> {
