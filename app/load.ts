@@ -16,6 +16,7 @@ esriSystem.register([
     'esri/Map',
     'esri/symbols/SimpleLineSymbol',
     'esri/symbols/SimpleFillSymbol',
+    "esri/symbols/PictureMarkerSymbol",
     'esri/views/MapView',
     'esri/views/SceneView'
 ], function () {

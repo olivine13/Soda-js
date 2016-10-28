@@ -22,4 +22,6 @@
 }
 .result chart{
     float: left;
+    max-height: 300px;
+    max-width: 400px;
 }

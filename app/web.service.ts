@@ -12,11 +12,14 @@ import { Car } from './model/car';
 @Injectable()
 export class WebService {
 
-	constructor(private log: Logger) {
+	constructor(private log: Logger,private http:Http) {
 	}
 
 	getSystemInfo(): Observable<SystemInfo> {
-		return Observable.of(new SystemInfo(1, 1, "sunny"));
+		// return this.http.get('')
+		// .map(res=>res.json())
+		// .mergeMap(json=>Observable.of(json));
+		return Observable.of(new SystemInfo(new Date().getDay(), 8, "sunny"));
 	}
 
 	getRoads(date): Observable<Road[]> {
@@ -35,7 +38,7 @@ export class WebService {
 		return Observable.of([
 			new Company("00001", "滴滴出行", 87, 18),
 			new Company("00002", "人民优步", 76, 13),
-			new Company("00003", , "易到用车", 62, 31),
+			new Company("00003", "易到用车", 62, 31),
 			new Company("00004", "神州租车", 89, 10)
 		]);
 	}
@@ -74,7 +77,7 @@ export class WebService {
 			roadList.push(road);
 		}
 		for (let i = 1; i < 30; i++) {
-			var driver: Driver = new Driver("0000" + i, 80 + i, i, i, "在线", 10, "0000" + i);
+			var driver: Driver = new Driver("1613" + i, 80 + i, i, i, "在线", 10, "0000" + i);
 			driver.addRoadsAll(roadList);
 			test.push(driver);
 		}

@@ -46,7 +46,21 @@ export class CompanyComponent implements OnInit {
                 this.driverList = drivers;
             });
 
-        this.webService.getCars();
+        this.webService.getCars()
+            .subscribe(cars => {
+                this.carList = cars;
+                Observable.from(cars)
+                    .delay(500)
+                    .subscribe(car => {
+                        this._mapService.addPictureMark({
+                            url: "app/images/car.png",
+                            width: "24px",
+                            height: "24px"
+                        },
+                            car.latitude,
+                            car.lontitude);
+                    });
+            });
     }
 
     onShowDriver(): void {

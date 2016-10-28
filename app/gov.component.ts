@@ -2,12 +2,15 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import './rx-operators';
+
+import HighchartsChartObject from 'highcharts';
+import HighchartsObject from 'highcharts';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
 import { MapService } from './map.service';
 import { SystemInfo } from './model/system-info';
 import { Road } from './model/road';
-import { Company, ICompanyInfo } from './model/company';
+import { Company } from './model/company';
 import { AlertManager } from './alert.manager';
 
 @Component({
@@ -28,8 +31,10 @@ export class GovComponent implements OnInit {
     roadname: string;
 
     selectCompany: Company;
-    rateChartOptions: Object;
-    accidentChartOptions: Object;
+    rateChartOptions: HighchartsOptions;
+    rateChart: HighchartsChartObject;
+    accidentChartOptions: HighchartsOptions;
+    accidentChart: HighchartsChartObject;
 
     systemTime: Date = new Date();
 
@@ -43,6 +48,36 @@ export class GovComponent implements OnInit {
         private route: ActivatedRoute,
         private _mapService: MapService,
         private _alertManager: AlertManager) {
+        this.rateChartOptions = {
+            title: { text: '企业安全指数' },
+            credits: {
+                href: '',
+                text: 'by 低碳先锋队'
+            },
+            series:[{
+                name:'安全指数'
+            }],
+            yAxis: {
+                title: {
+                    text: '安全指数'
+                }
+            }
+        };
+        this.accidentChartOptions = {
+            title: { text: '企业事故数' },
+            credits: {
+                href: '',
+                text: 'by 低碳先锋队'
+            },
+            series:[{
+                name:'事故数'
+            }],
+            yAxis: {
+                title: {
+                    text: '事故数'
+                }
+            }
+        };
     }
 
     ngOnInit() {
@@ -95,49 +130,21 @@ export class GovComponent implements OnInit {
         if (this.companyname) {
             //显示当前搜索企业
             var flag: boolean = false;
-            this.companyList.forEach(company => {
-                if (company.name === this.companyname) {
-                    this.selectCompany = company;
-                    //显示对应企业的图表数据
 
-                    var seriesRate = new Object;
-                    var accidentRate = new Object;
-                    this.webService.getCompanyInfo(company.id, 1, 8)
-                        .mergeMap(list => Observable.of(list))
-                        .subscribe(info => {
-                            seriesRate[0].addPoint({ info.month, info.accident });
-                        });
-                    this.rateChartOptions = {
-                        title: { text: '企业安全指数' },
-                        series: [{
-                            name: '企业安全指数历史统计',
-                            data: [
-                                [
-                                    29
-                                ]
-                            ][29.9, 71.5, 106.4, 129.2],
-                        }],
-                        credits: {
-                            href: '',
-                            text: 'by 低碳先锋队'
-                        },
-                        yAxis: {
-                            title: {
-                                text: '安全指数'
-                            }
-                        }
-                    };
-                    this.accidentChartOptions = {
-                        title: { text: '企业事故数' },
-                        series: [{
-                            data: [5, 4, 8, 6],
-                        }]
-                    };
+            Observable.from(this.companyList)
+                .filter(company => company.name === this.companyname && !flag)
+                .mergeMap(company => {
+                    this.selectCompany = company;
                     flag = true;
-                    return;
-                }
-            });
-            if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应企业' });
+                    return this.webService.getCompanyInfo(company.id, 1, 8)
+                })
+                .mergeMap(list => Observable.from(list))
+                .subscribe(info => {
+                    this.rateChart.series[0].addPoint([info.month, info.accident]);
+                    this.accidentChart.series[0].addPoint([info.month, info.accident]);
+                }, () => {
+                    if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应企业' });
+                });
         } else {
             this.selectCompany = null;
             this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
@@ -147,6 +154,14 @@ export class GovComponent implements OnInit {
     onSortCompany(type): void {
         //如果为0按安全指数排序，否则按事故数排序
         this.companyList.sort(type == 0 ? (n1, n2) => n1.rate - n2.rate : (n1, n2) => n1.accident - n2.accident);
+    }
+
+    saveRateChartInstance(instance) {
+        this.rateChart = instance;
+    }
+
+    saveAccidentChartInstance(instance) {
+        this.accidentChart = instance;
     }
 
 }

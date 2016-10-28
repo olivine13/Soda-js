@@ -59,7 +59,7 @@
 		<span class="label label-primary">排序方式</span>
 		<div class="btn-group">
 			<button (click)="onSortCompany(0)" type="button" class="btn btn-default">安全指数</button>
-			<button (click)="onSortCompany(1)" type="button" class="btn btn-default">车辆数</button>
+			<button (click)="onSortCompany(1)" type="button" class="btn btn-default">事故数</button>
 		</div>
 		<br/>
 		<br/>
@@ -100,7 +100,7 @@
 		<p style="background-color:#24ba0c">非常高(75-100)</p>
 	</div>
 	<div [hidden]="selectCompany==null" class="result" id="carInfo">
-		<chart [options]="rateChartOptions"></chart>
-		<chart [options]="accidentChartOptions"></chart>
+		<chart [options]="rateChartOptions" (load)="saveRateChartInstance($event.context)"></chart>
+		<chart [options]="accidentChartOptions" (load)="saveAccidentChartInstance($event.context)"></chart>
 	</div>
 </div>

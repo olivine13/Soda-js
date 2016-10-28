@@ -4,7 +4,10 @@ import Collection from 'esri/core/Collection';
 import Basemap from 'esri/Basemap';
 import Map from 'esri/Map';
 import MapView from 'esri/views/MapView';
+import Graphic from 'esri/Graphic';
+import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import MapImageLayer from 'esri/layers/MapImageLayer';
+import GraphicsLayer from 'esri/layers/GraphicsLayer';
 
 const MAP_SERVICE_URL = 'http://222.73.7.71/arcgis/rest/services/SafetyMap/MapServer';
 const LAY_ID_MAP = {
@@ -18,6 +21,7 @@ export class MapService {
     map: Map;
     mapView: MapView;
     imageLayer: MapImageLayer;
+    markLayer: GraphicsLayer;
 
     currentSubLayer: number = -1;
 
@@ -28,6 +32,7 @@ export class MapService {
         this.map.add(this.imageLayer = new MapImageLayer({
             url: MAP_SERVICE_URL
         }));
+        this.map.add(this.markLayer = new GraphicsLayer());
         this.mapView = new MapView({
             container: div,
             map: this.map,
@@ -56,5 +61,13 @@ export class MapService {
             return true;
         }
         return false;
+    }
+
+    addPictureMark(mark, x, y): void {
+        this.markLayer.add(Graphic.fromJSON({
+            x: x,
+            y: y,
+            symbol: mark
+        }));
     }
 }

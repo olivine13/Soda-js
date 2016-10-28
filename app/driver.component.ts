@@ -41,10 +41,13 @@ export class DriverComponent implements OnInit {
             });
         this._mapService.initMap("map","streets-night-vector");
         this._mapService.showLayerByDriverId(this.driver.id);
-        this.webService.getDriver("00001")
+        this.webService.getDriver("16131")
             .subscribe(driver => {
                 this.driver = driver;
             });
+        Observable.of(this)
+        .delay(1000)
+        .subscribe(a=>a._mapService.showLayerByDriverId(a.driver.id));
     }
 
     onShowRoad(): void {
