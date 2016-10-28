@@ -9,10 +9,14 @@ import { Driver } from './model/driver';
 import { Company, ICompanyInfo } from './model/company';
 import { Car } from './model/car';
 
+const url_base: string = 'http://222.73.7.71/';
+const url_driver: string = 'soda/drivers/';
+const url_road: string = 'soda/way_index/';
+
 @Injectable()
 export class WebService {
 
-	constructor(private log: Logger,private http:Http) {
+	constructor(private log: Logger, private http: Http) {
 	}
 
 	getSystemInfo(): Observable<SystemInfo> {
@@ -23,6 +27,7 @@ export class WebService {
 	}
 
 	getRoads(date): Observable<Road[]> {
+		// this.http.get(url_base + url_road +);
 		var list: Road[] = [];
 		for (var i = 0; i < 50; i++) {
 			list.push(new Road('000' + i, '共和-鲁班' + i, 100 - i));
