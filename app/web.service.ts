@@ -242,7 +242,7 @@ export class WebService {
 						0,
 						0,
 						rd > 0.2 || rd < -0.3);
-					car.break = (o['brake'] == 0);
+					car.brake = (o['brake'] == 0);
 					car.speed = o['speed'];
 					car.direction = o['degree'];
 					car.elevated = rd > 0.1 || rd < -0.35;
