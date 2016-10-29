@@ -11,7 +11,7 @@ export class RoadBean {
 
 	lontitude: number;
 
-	rate: number;
-
-	constructor(public id: string, public name: string) { }
+	name: string;
+	
+	constructor(public id: string, public rate:number) { }
 }

@@ -36,12 +36,13 @@ export class DriverComponent implements OnInit {
     ngOnInit() {
         this.route.queryParams
             .subscribe(params => {
+                console.debug(JSON.stringify(params));
                 this.id = params['id'] || 'none';
                 this.username = params['username'] || 'none';
             });
         this._mapService.initMap("map","streets-night-vector");
-        this._mapService.showLayerByDriverId(this.driver.id);
-        this.webService.getDriver("16131")
+        this._mapService.showLayerByDriverId(this.id);
+        this.webService.getDriver(this.id)
             .subscribe(driver => {
                 this.driver = driver;
             });

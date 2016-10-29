@@ -54,9 +54,14 @@ export class GovComponent implements OnInit {
                 href: '',
                 text: 'by 低碳先锋队'
             },
-            series:[{
-                name:'安全指数'
+            series: [{
+                name: '安全指数'
             }],
+            xAxis: {
+                title: {
+                    text: '月份'
+                }
+            },
             yAxis: {
                 title: {
                     text: '安全指数'
@@ -69,9 +74,14 @@ export class GovComponent implements OnInit {
                 href: '',
                 text: 'by 低碳先锋队'
             },
-            series:[{
-                name:'事故数'
+            series: [{
+                name: '事故数'
             }],
+            xAxis: {
+                title: {
+                    text: '月份'
+                }
+            },
             yAxis: {
                 title: {
                     text: '事故数'
@@ -100,9 +110,11 @@ export class GovComponent implements OnInit {
     }
 
     getData(): void {
+        this.roadList = [];
         this.webService.getRoads(this.weather.time)
-            .subscribe(roadList => {
-                this.roadList = roadList;
+            .flatMap(roadList => Observable.from(roadList))
+            .subscribe(road => {
+                this.roadList.push(road);
             });
         this.webService.getCompanies(this.weather.time)
             .subscribe(companyList => {
@@ -120,7 +132,7 @@ export class GovComponent implements OnInit {
 
     onShowRoad(): void {
         if (this.roadname) {
-            console.debug(this.roadname);
+            this._alertManager.openAlert({ id: 1, type: 'info', message: '暂时不支持该功能' });
         } else {
             this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
@@ -131,6 +143,10 @@ export class GovComponent implements OnInit {
             //显示当前搜索企业
             var flag: boolean = false;
 
+            for (var i = 0; i < this.rateChart.series[0].data.length; i++) {
+                this.rateChart.series[0].removePoint(i);
+                this.accidentChart.series[0].removePoint(i);
+            }
             Observable.from(this.companyList)
                 .filter(company => company.name === this.companyname && !flag)
                 .mergeMap(company => {
@@ -140,7 +156,7 @@ export class GovComponent implements OnInit {
                 })
                 .mergeMap(list => Observable.from(list))
                 .subscribe(info => {
-                    this.rateChart.series[0].addPoint([info.month, info.accident]);
+                    this.rateChart.series[0].addPoint([info.month, info.rate]);
                     this.accidentChart.series[0].addPoint([info.month, info.accident]);
                 }, () => {
                     if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应企业' });

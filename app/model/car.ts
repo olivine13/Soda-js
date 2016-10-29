@@ -16,9 +16,10 @@ export class Car {
      */
     public speed:number;
     public direction:number;
-    public break:boolean;
+    public brake:boolean;
     public elevated:boolean;
     public onlinetime:number;
+    public gpstime:string;
 
     constructor(public id: string, public driverId: string, public number: string,
         public latitude: number, public lontitude: number,

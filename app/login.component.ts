@@ -29,17 +29,17 @@ export class LoginComponent implements OnInit {
         var param: any;
         var id = this.username.substring(0, this.username.indexOf("@"));
         var username = this.username;
-        if (this.username === "123@driver.com") {
+        if (this.username.endsWith('@driver.com')) {
             redirectUrl = '/driver';
             let navigationExtras: NavigationExtras = {
                 queryParams: { 'id': id, 'username': username }
             };
             this.router.navigate([redirectUrl], navigationExtras);
-        } else if (this.username === "123@gov.com") {
+        } else if (this.username.endsWith('@gov.com')) {
             redirectUrl = "/gov";
             param = 'road';
             this.router.navigate([redirectUrl, param]);
-        } else if (this.username === "123@company.com") {
+        } else if (this.username.endsWith('123@company.com')) {
             redirectUrl = "/company";
             let navigationExtras: NavigationExtras = {
                 queryParams: { 'id': id, 'username': username, 'mode': 'driver' }

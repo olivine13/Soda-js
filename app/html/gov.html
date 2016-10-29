@@ -99,7 +99,7 @@
 		<p style="background-color:#fd901d">高(50-75)</p>
 		<p style="background-color:#24ba0c">非常高(75-100)</p>
 	</div>
-	<div [hidden]="selectCompany==null" class="result" id="carInfo">
+	<div [hidden]="selectCompany==null&&mode!='company'" class="result" id="carInfo">
 		<chart [options]="rateChartOptions" (load)="saveRateChartInstance($event.context)"></chart>
 		<chart [options]="accidentChartOptions" (load)="saveAccidentChartInstance($event.context)"></chart>
 	</div>

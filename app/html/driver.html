@@ -16,7 +16,7 @@
 		</div>
 		<br/>
 		<br/>
-		<p style="float:right;">找到记录:{{driver.roadList.length}}</p>
+		<p style="float:right;">找到记录:{{driver?.roadList.length}}</p>
 		<div>
 			<table class="table table-hover">
 				<caption>路段安全指数</caption>
@@ -28,7 +28,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let road of driver.roadList">
+					<tr *ngFor="let road of driver?.roadList">
 						<td>{{road.id}}</td>
 						<td>{{road.name}}</td>
 						<td>{{road.rate}}</td>
