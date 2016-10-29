@@ -44,7 +44,6 @@ export class WebService {
 				}
 				return roadList;
 			})
-			.take(500)
 			.subscribeOn(Scheduler.asap)
 			.observeOn(Scheduler.asap);
 		// return this.http.get(url_base + url_road + getStringFormat(1, 10, '{}'))

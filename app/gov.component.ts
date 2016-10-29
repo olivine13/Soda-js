@@ -113,6 +113,7 @@ export class GovComponent implements OnInit {
         this.roadList = [];
         this.webService.getRoads(this.weather.time)
             .flatMap(roadList => Observable.from(roadList))
+            .take(500)
             .subscribe(road => {
                 this.roadList.push(road);
             });
