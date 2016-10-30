@@ -56,10 +56,11 @@ export class DriverComponent implements OnInit {
         if (this.roadname) {
             this.driver.roadList = [];
             this.webService.getRoadBean(this.driver.id, this.roadname)
+                .finally(() => {
+                    if (this.driver.roadList.length <= 0) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应路段' });
+                })
                 .subscribe(road => {
                     this.driver.roadList.push(road);
-                }, () => {
-                    if (this.driver.roadList.length <= 0) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应路段' });
                 });
         } else {
             this.driver.roadList = [];

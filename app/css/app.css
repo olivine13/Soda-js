@@ -1,5 +1,5 @@
 .navigation {
-  background-color: #4fad54;
+  background-color:#4b87cb;
 }
 .navigation a {
   padding: 10px 10px;
@@ -53,10 +53,10 @@
 .rate p{
     margin-top: 4px;
     margin-bottom: 4px;
+    text-align: center;
     -webkit-text-fill-color: #fff;
     padding-top: 10px;
     padding-bottom: 10px;
-    padding-left: 50px;
 }
 #map{
     height: 100%;

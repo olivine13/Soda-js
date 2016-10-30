@@ -33,6 +33,7 @@ export class CompanyComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.debug('company init');
         this._mapService.initMap("map", "streets-night-vector");
 
         this.route.queryParams
@@ -48,13 +49,14 @@ export class CompanyComponent implements OnInit {
                 this.driverList.push(driver);
             });
 
-
         Observable.of(this)
             .delay(2000)
             .subscribe(a => a._mapService.showLayerByName('car-position'));
     }
 
     onShowDriver(): void {
+        this.selectCar = null;
+        this.selectDriver = null;
         if (this.driverId) {
 
             this.driverList = [];
@@ -100,6 +102,8 @@ export class CompanyComponent implements OnInit {
     }
 
     onShowCar(): void {
+        this.selectCar = null;
+        this.selectDriver = null;
         if (this.driverId) {
             var flag: boolean = false;
             this.webService.getCar(this.driverId)

@@ -100,7 +100,6 @@ export class GovComponent implements OnInit {
         this.webService.getSystemInfo()
             .subscribe(weather => {
                 this.weather = weather;
-                // this.getData();
             });
         this.webService.getCompanies()
             .subscribe(companyList => {
@@ -116,12 +115,11 @@ export class GovComponent implements OnInit {
         //获取路段数据
         this.isSearching = true;
         this.roadList = [];
-        this.webService.getRoads(name, time, weather)
+        this.webService.getRoads(name, time, weather === "sunny" ? 0 : 1)
+            .finally(() => this.isSearching = false)
             .flatMap(roadList => Observable.from(roadList))
-            .take(500)
-            .subscribe(road => {
-                this.roadList.push(road);
-            }, () => this.isSearching = false);
+            .subscribe(road => this.roadList.push(road),
+            error => { console.debug(error) });
     }
 
     onPickTimeWithWeather(name, time, weather): void {

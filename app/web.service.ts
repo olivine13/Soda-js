@@ -33,7 +33,7 @@ export class WebService {
 		return Observable.of(new SystemInfo(new Date().getDay(), 8, "sunny"));
 	}
 
-	getRoads(name, yuliang = 0, time = 8): Observable<Road[]> {
+	getRoads(name, time=8,yuliang = 0): Observable<Road[]> {
 		var roadList: Road[] = [];
 		var index: string = '{';
 		if (name) index += 'name:"' + name + '",';
@@ -91,6 +91,7 @@ export class WebService {
 		index += '}';
 		return Observable.fromPromise(this.http.get(url_base + url_driver + index).toPromise())
 			.flatMap(response => {
+				console.debug(response.url);
 				var size: number[] = response.json()['data']['navigatepageNums'];
 				return Observable.from(size);
 			})
