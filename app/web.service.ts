@@ -33,19 +33,38 @@ export class WebService {
 		return Observable.of(new SystemInfo(new Date().getDay(), 8, "sunny"));
 	}
 
-	getRoads(date): Observable<Road[]> {
-		return this.http.get('app/json/road_info.json')
+	getRoads(name, yuliang = 0, time = 8): Observable<Road[]> {
+		var roadList: Road[] = [];
+		var index: string = '{';
+		if (name) index += 'name:"' + name + '",';
+		index += 'yuliang:' + yuliang + ',';
+		index += 'time:' + time + '}';
+		return Observable.fromPromise(this.http.get(url_base + url_road
+			+ getStringFormat(1, 100, index))
+			.toPromise())
+			.flatMap(response => {
+				var size: number[] = response.json()['data']['navigatepageNums'];
+				return Observable.from(size);
+			})
+			.flatMap(pageNum => {
+				return this.http.get(url_base + url_road + getStringFormat(pageNum, 100, index));
+			})
 			.map(response => {
-				var roadList: Road[] = [];
-				var array = response.json();
-				for (var i = 0; i < array.length; i++) {
-					var o = array[i];
-					roadList.push(new Road(o['wid'], o['name'], o['score']));
+				var list = response.json()['data']['list'];
+				for (var i = 0; i < list.length; i++) {
+					roadList.push(new Road(list[i]['wid'], list[i]['name'] === '' ? '路段升级中' : list[i]['name'], list[i]['score']));
 				}
 				return roadList;
-			})
-			.subscribeOn(Scheduler.asap)
-			.observeOn(Scheduler.asap);
+			});//.get('app/json/road_info.json'))
+		// .map(response => {
+		// 	var roadList: Road[] = [];
+		// 	var array = response.json();
+		// 	for (var i = 0; i < array.length; i++) {
+		// 		var o = array[i];
+		// 		roadList.push(new Road(o['wid'], o['name'], o['score']));
+		// 	}
+		// 	return roadList;
+		// })
 		// return this.http.get(url_base + url_road + getStringFormat(1, 10, '{}'))
 		// 	.flatMap(response => {
 		// 		var size: number[] = response.json()['data']['navigatepageNums'];
@@ -65,22 +84,34 @@ export class WebService {
 		// return Observable.of(list);
 	}
 
-	getRoadBean(id): Observable<RoadBean[]> {
-		return this.http.get(url_base + url_driver + "{car_id:" + id + "}")
+	getRoadBean(id, name = ''): Observable<RoadBean> {
+		var index: string = '{';
+		index += 'car_id:' + id;
+		if (name!=='') index += ',name:"' + name +'"';
+		index += '}';
+		return Observable.fromPromise(this.http.get(url_base + url_driver + index).toPromise())
+			.flatMap(response => {
+				var size: number[] = response.json()['data']['navigatepageNums'];
+				return Observable.from(size);
+			})
+			.flatMap(pageNum => {
+				return this.http.get(url_base + url_road + getStringFormat(pageNum, 100, index));
+			})
 			.map(response => {
 				var roadList: RoadBean[] = [];
 				var list = response.json()['data']['list'];
 				for (var i = 0; i < list.length; i++) {
 					var o = list[i];
 					var bean: RoadBean = new RoadBean(o['wid'], parseFloat(o['score'].toFixed(2)));
-					bean.name = '路段升级中';
+					bean.name = o['name'] === '' ? '路段升级中' : o['name'];
 					roadList.push(bean);
 				}
 				return roadList;
-			});
+			})
+			.flatMap(road => Observable.from(road));
 	}
 
-	getCompanies(date): Observable<Company[]> {
+	getCompanies(): Observable<Company[]> {
 		return Observable.of([
 			new Company("00001", "滴滴出行", 87, 18),
 			new Company("00002", "人民优步", 76, 13),
@@ -95,7 +126,7 @@ export class WebService {
 	}
 
 	getCompanyInfo(id, from, end): Observable<ICompanyInfo[]> {
-		return this.getCompanies("")
+		return this.getCompanies()
 			.flatMap(list => Observable.from(list))
 			.filter(company => company.id === id)
 			.map(company => {
@@ -112,11 +143,11 @@ export class WebService {
 	}
 
 	//获取指定id司机信息
-	getDriver(id): Observable<Driver> {
-		return this.getRoadBean(id)
-			.map(list => {
-				var driver: Driver = new Driver(id, 87, 1, 1, "online", 10, id);
-				driver.roadList = list;
+	getDriver(id,name=''): Observable<Driver> {
+		var driver: Driver = new Driver(id, 87, 1, 1, "online", 10, id);
+		return this.getRoadBean(id,name)
+			.map(road => {
+				driver.roadList.push(road);
 				return driver;
 			});
 	}
@@ -178,7 +209,6 @@ export class WebService {
 				var list = response.json();
 				for (var i = 0; i < list.length; i++) {
 					var o = list[i];
-					console.debug(JSON.stringify(o));
 					var rd: number = parseFloat(this.GetRandomNum(-0.5, 0.5).toFixed(2));
 					driverList.push(new Driver(
 						o['car_id'] + '',

@@ -33,7 +33,7 @@ export class CompanyComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._mapService.initMap("map");
+        this._mapService.initMap("map", "streets-night-vector");
 
         this.route.queryParams
             .subscribe(params => {
@@ -48,40 +48,32 @@ export class CompanyComponent implements OnInit {
                 this.driverList.push(driver);
             });
 
-        // this.webService.getCars()
-        //     .subscribe(cars => {
-        //         this.carList = cars;
-        //         Observable.from(cars)
-        //             .delay(500)
-        //             .subscribe(car => {
-        //                 this._mapService.addPictureMark({
-        //                     url: "app/images/car.png",
-        //                     width: "24px",
-        //                     height: "24px"
-        //                 },
-        //                     car.latitude,
-        //                     car.lontitude);
-        //             });
-        //     });
+
+        Observable.of(this)
+            .delay(2000)
+            .subscribe(a => a._mapService.showLayerByName('car-position'));
     }
 
     onShowDriver(): void {
         if (this.driverId) {
+
+            this.driverList = [];
             var flag: boolean = false;
-            Observable.from(this.driverList)
+            this.webService.getDrivers()
+                .flatMap(list => Observable.from(list))
                 .filter(driver => driver.id === this.driverId)
                 .take(1)
                 .flatMap(driver => {
                     flag = true;
                     this.selectDriver = driver;
                     this.selectDriver.roadList = [];
+                    this.driverList.push(driver);
                     return this.webService.getRoadBean(driver.id)
                 })
-                .flatMap(list => Observable.from(list))
                 .subscribe(bean => {
                     this.selectDriver.roadList.push(bean);
                 }, () => {
-                    if (!flag) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应司机' });
+                    if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应司机' });
                 });
 
             //找到对应司机后，显示司机数据
@@ -91,7 +83,12 @@ export class CompanyComponent implements OnInit {
                 this._alertManager.openAlert({ id: 2, type: 'success', message: '等待刷新地图' });
             }
         } else {
-            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
+            this.driverList = [];
+            this.webService.getDrivers()
+                .flatMap(list => Observable.from(list))
+                .subscribe(driver => {
+                    this.driverList.push(driver);
+                });
         }
     }
 
@@ -113,7 +110,12 @@ export class CompanyComponent implements OnInit {
                     if (!flag) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应司机' });
                 })
         } else {
-            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
+            this.driverList = [];
+            this.webService.getDrivers()
+                .flatMap(list => Observable.from(list))
+                .subscribe(driver => {
+                    this.driverList.push(driver);
+                });
         }
     }
 

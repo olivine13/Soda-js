@@ -4,29 +4,30 @@
 			<h2>{{WEEKDAY[weather?.week]}}</h2>
 			<h3>{{systemTime?.getHours()}}:{{systemTime?.getMinutes()}}</h3>
 			<hr>
-			<p>请选取要查看时段的路段图:</p>
 			<ngb-timepicker [(ngModel)]="time" [spinners]="spinners"></ngb-timepicker>
-			<button (click)="onPickTimeWithWeather(time.hour,weatherChecked)" class="btn btn-default">查看</button>
 		</div>
 		<hr>
 		<div [(ngModel)]="weatherChecked" ngbRadioGroup name="radioBasic">
 			<label class="btn btn-primary">
-    			<input type="radio" value="sunny" (click)="onPickTimeWithWeather(time.hour,weatherChecked)">
+    			<input type="radio" value="sunny" (click)="onPickTimeWithWeather(roadname,time.hour,weatherChecked)">
 				<img src="app/images/weather0.png">
   			</label>
 			<label class="btn btn-primary">
-    			<input type="radio" value="rainy" (click)="onPickTimeWithWeather(time.hour,weatherChecked)">
+    			<input type="radio" value="rainy" (click)="onPickTimeWithWeather(roadname,time.hour,weatherChecked)">
 				<img src="app/images/weather1.png">
   			</label>
 			<label class="btn btn-primary">
-    			<input type="radio" value="medium-rainy" (click)="onPickTimeWithWeather(time.hour,weatherChecked)">
+    			<input type="radio" value="medium-rainy" (click)="onPickTimeWithWeather(roadname,time.hour,weatherChecked)">
 				<img src="app/images/weather2.png">
   			</label>
 		</div>
+		<br/>
+		<br/>
+		<button (click)="onShowRoad(roadname,time.hour,weatherChecked)" class="btn btn-default">查看</button>
 		<div class="input-group">
 			<input name="roadname" required [(ngModel)]="roadname" class="form-control" type="text" placeholder="请输入路段名称">
 			<span class="input-group-btn">
-				<button (click)="onShowRoad()" class="btn btn-default" type="button">确定</button>
+				<button (click)="onShowRoad(roadname,time.hour,weatherChecked)" class="btn btn-default" type="button">确定</button>
 			</span>
 		</div>
 		<div>
@@ -48,6 +49,7 @@
 				</tbody>
 			</table>
 		</div>
+		<p [hidden]="!isSearching">正在查找数据...</p>
 	</div>
 	<div [hidden]="mode!='company'" class="toolbar" id="companyMode">
 		<div class="input-group">
@@ -87,19 +89,20 @@
 	<div id="map"></div>
 	<div class="rate" [hidden]="mode!='road'">
 		<p style="-webkit-text-fill-color: #000">路段安全指数</p>
-		<p style="background-color:#aa0008">非常低(0-25)</p>
-		<p style="background-color:#ec1524">低(25-50)</p>
-		<p style="background-color:#fd901d">高(50-75)</p>
-		<p style="background-color:#24ba0c">非常高(75-100)</p>
+		<p style="background-color:#42e806">A</p>
+		<p style="background-color:#96FF60">B</p>
+		<p style="background-color:#FFFF0B">C</p>
+		<p style="background-color:#FB0006">D</p>
 	</div>
 	<div class="rate" [hidden]="mode!='company'">
 		<p style="-webkit-text-fill-color: #000">企业安全指数</p>
-		<p style="background-color:#aa0008">非常低(0-25)</p>
-		<p style="background-color:#ec1524">低(25-50)</p>
-		<p style="background-color:#fd901d">高(50-75)</p>
-		<p style="background-color:#24ba0c">非常高(75-100)</p>
+		<p style="background-color:#42e806">A</p>
+		<p style="background-color:#96FF60">B</p>
+		<p style="background-color:#FFFF0B">C</p>
+		<p style="background-color:#FB0006">D</p>
 	</div>
-	<div [hidden]="selectCompany==null&&mode!='company'" class="result" id="carInfo">
+	<div class="result" id="carInfo" hidden="hidden">
+		<!--[hidden]="selectCompany==null&&mode!='company'">-->
 		<chart [options]="rateChartOptions" (load)="saveRateChartInstance($event.context)"></chart>
 		<chart [options]="accidentChartOptions" (load)="saveAccidentChartInstance($event.context)"></chart>
 	</div>

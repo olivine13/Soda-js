@@ -40,29 +40,35 @@ export class DriverComponent implements OnInit {
                 this.id = params['id'] || 'none';
                 this.username = params['username'] || 'none';
             });
-        this._mapService.initMap("map","streets-night-vector");
+        this._mapService.initMap("map", "streets-night-vector");
         this._mapService.showLayerByDriverId(this.id);
+
         this.webService.getDriver(this.id)
             .subscribe(driver => {
                 this.driver = driver;
             });
         Observable.of(this)
-        .delay(1000)
-        .subscribe(a=>a._mapService.showLayerByDriverId(a.driver.id));
+            .delay(2000)
+            .subscribe(a => a._mapService.showLayerByDriverId(a.driver.id));
     }
 
     onShowRoad(): void {
         if (this.roadname) {
-            var flag: boolean = false;
-            this.driver.roadList.forEach(road => {
-                if (road.name === this.roadname) {
-                    flag = true;
-                    return;
-                }
-            });
-            if (!flag) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应路段' });
+            this.driver.roadList = [];
+            this.webService.getRoadBean(this.driver.id, this.roadname)
+                .subscribe(road => {
+                    this.driver.roadList.push(road);
+                }, () => {
+                    if (this.driver.roadList.length <= 0) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应路段' });
+                });
         } else {
-            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
+            this.driver.roadList = [];
+            this.webService.getRoadBean(this.driver.id, this.roadname)
+                .subscribe(road => {
+                    this.driver.roadList.push(road);
+                }, () => {
+                    if (this.driver.roadList.length <= 0) this._alertManager.openAlert({ id: 2, type: 'info', message: '没有找到对应路段' });
+                });
         }
     }
 

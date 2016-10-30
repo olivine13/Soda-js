@@ -22,6 +22,7 @@ export class GovComponent implements OnInit {
 
     WEEKDAY = ["星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"];
 
+    isSearching: boolean = false;
     mode: string;
     weather: SystemInfo;
     roadList: Road[];
@@ -95,35 +96,35 @@ export class GovComponent implements OnInit {
         this.route.params.forEach((params: Params) => {
             this.mode = params['mode'];
         });
-        this.log.d(this.mode);
 
         this.webService.getSystemInfo()
             .subscribe(weather => {
                 this.weather = weather;
-                this.getData();
+                // this.getData();
             });
-
+        this.webService.getCompanies()
+            .subscribe(companyList => {
+                this.companyList = companyList;
+            });
         //显示默认图层
         Observable.of(this)
-            .delay(1000)
+            .delay(2000)
             .subscribe(a => a._mapService.showLayerByTimeWithWeather(this.time.hour, this.weatherChecked));
     }
 
-    getData(): void {
+    getData(name, time, weather): void {
+        //获取路段数据
+        this.isSearching = true;
         this.roadList = [];
-        this.webService.getRoads(this.weather.time)
+        this.webService.getRoads(name, time, weather)
             .flatMap(roadList => Observable.from(roadList))
             .take(500)
             .subscribe(road => {
                 this.roadList.push(road);
-            });
-        this.webService.getCompanies(this.weather.time)
-            .subscribe(companyList => {
-                this.companyList = companyList;
-            });
+            }, () => this.isSearching = false);
     }
 
-    onPickTimeWithWeather(time, weather): void {
+    onPickTimeWithWeather(name, time, weather): void {
         if (this._mapService.showLayerByTimeWithWeather(time, weather)) {
             this._alertManager.openAlert({ id: 1, type: 'success', message: '正在刷新地图，请稍等' });
         } else {
@@ -131,9 +132,9 @@ export class GovComponent implements OnInit {
         }
     }
 
-    onShowRoad(): void {
-        if (this.roadname) {
-            this._alertManager.openAlert({ id: 1, type: 'info', message: '暂时不支持该功能' });
+    onShowRoad(name, time, weather): void {
+        if (name) {
+            this.getData(name, time, weather);
         } else {
             this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
