@@ -50,7 +50,6 @@ export class MapService {
             center: [121.43029797761215, 31.277403882152259],
             zoom: 10
         });
-        this.mapView.on
     }
 
     showLayerByTimeWithWeather(time = 8, weather = "sunny"): boolean {
@@ -59,29 +58,43 @@ export class MapService {
     }
 
     showLayerByDriverId(id): boolean {
-        console.log('car-' + id + ":" + LAY_ID_MAP['car-' + id]);
         if (!LAY_ID_MAP['car-' + id]) return false;
         return this.showLayer(LAY_ID_MAP['car-' + id]);
     }
 
     showLayerByName(name): boolean {
-        console.log(name + ":" + LAY_ID_MAP[name]);
-        // if (LAY_ID_MAP[name]) return false;
         return this.showLayer(LAY_ID_MAP[name]);
     }
 
+    hideLayerByName(name): boolean {
+        return this.hideLayer(LAY_ID_MAP[name]);
+    }
+
     showLayer(targetId): boolean {
+        if (this.visiableMap[targetId]) return;
         var targetLayer = this.imageLayer.findSublayerById(targetId);
         var currentLayer = this.imageLayer.findSublayerById(this.currentSubLayer);
-        this.visiableMap[targetId] = true;
         this.visiableMap[this.currentSubLayer] = false;
-        console.log(targetLayer);
+        this.visiableMap[targetId] = true;
         if (targetLayer) {
             if (currentLayer) {
                 currentLayer.visible = false;
             }
             targetLayer.visible = true;
             this.currentSubLayer = targetId;
+            return true;
+        } else {
+            this.visiableMap[targetId] = false;
+        }
+        return false;
+    }
+
+    hideLayer(targetId): boolean {
+        if (!this.visiableMap[targetId]) return;
+        var targetLayer = this.imageLayer.findSublayerById(targetId);
+        this.visiableMap[targetId] = false;
+        if (targetLayer) {
+            targetLayer.visible = false;
             return true;
         }
         return false;

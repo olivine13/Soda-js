@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,DoCheck } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Logger } from './logger.service';
@@ -13,7 +13,7 @@ import { AlertManager } from './alert.manager';
     templateUrl: "app/html/company.html",
     styleUrls: ["app/css/company.css", "app/css/app.css"]
 })
-export class CompanyComponent implements OnInit {
+export class CompanyComponent implements OnInit,DoCheck {
 
     mode: string;
     driverList: Driver[];
@@ -48,10 +48,14 @@ export class CompanyComponent implements OnInit {
             .subscribe(driver => {
                 this.driverList.push(driver);
             });
+    }
 
-        Observable.of(this)
-            .delay(2000)
-            .subscribe(a => a._mapService.showLayerByName('car-position'));
+    ngDoCheck():void {
+        if(this.mode==='car') {
+            this._mapService.showLayerByName('car-position');
+        } else if(this.mode==='driver') {
+            this._mapService.hideLayerByName('car-position');
+        }
     }
 
     onShowDriver(): void {
