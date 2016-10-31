@@ -1,4 +1,4 @@
-import { Component, OnInit,DoCheck } from '@angular/core';
+import { Component, OnInit, DoCheck } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Logger } from './logger.service';
@@ -13,7 +13,7 @@ import { AlertManager } from './alert.manager';
     templateUrl: "app/html/company.html",
     styleUrls: ["app/css/company.css", "app/css/app.css"]
 })
-export class CompanyComponent implements OnInit,DoCheck {
+export class CompanyComponent implements OnInit, DoCheck {
 
     mode: string;
     driverList: Driver[];
@@ -50,10 +50,10 @@ export class CompanyComponent implements OnInit,DoCheck {
             });
     }
 
-    ngDoCheck():void {
-        if(this.mode==='car') {
+    ngDoCheck(): void {
+        if (this.mode === 'car') {
             this._mapService.showLayerByName('car-position');
-        } else if(this.mode==='driver') {
+        } else if (this.mode === 'driver') {
             this._mapService.hideLayerByName('car-position');
         }
     }
@@ -66,6 +66,9 @@ export class CompanyComponent implements OnInit,DoCheck {
             this.driverList = [];
             var flag: boolean = false;
             this.webService.getDrivers()
+                .finally(() => {
+                    if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应司机' });
+                })
                 .flatMap(list => Observable.from(list))
                 .filter(driver => driver.id === this.driverId)
                 .take(1)
@@ -78,8 +81,6 @@ export class CompanyComponent implements OnInit,DoCheck {
                 })
                 .subscribe(bean => {
                     this.selectDriver.roadList.push(bean);
-                }, () => {
-                    if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应司机' });
                 });
 
             //找到对应司机后，显示司机数据

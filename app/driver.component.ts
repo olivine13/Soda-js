@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit ,DoCheck} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Logger } from './logger.service';
@@ -18,7 +18,7 @@ import { AlertManager } from './alert.manager';
     templateUrl: "app/html/driver.html",
     styleUrls: ["app/css/app.css"]
 })
-export class DriverComponent implements OnInit {
+export class DriverComponent implements OnInit , DoCheck{
 
     username: string;
     id: string;
@@ -41,15 +41,15 @@ export class DriverComponent implements OnInit {
                 this.username = params['username'] || 'none';
             });
         this._mapService.initMap("map", "streets-night-vector");
-        this._mapService.showLayerByDriverId(this.id);
 
         this.webService.getDriver(this.id)
             .subscribe(driver => {
                 this.driver = driver;
             });
-        Observable.of(this)
-            .delay(2000)
-            .subscribe(a => a._mapService.showLayerByDriverId(a.driver.id));
+    }
+
+    ngDoCheck() {
+        this._mapService.showLayerByDriverId(this.id);
     }
 
     onShowRoad(): void {

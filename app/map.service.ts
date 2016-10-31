@@ -71,21 +71,23 @@ export class MapService {
     }
 
     showLayer(targetId): boolean {
-        if (this.visiableMap[targetId]) return;
+        if (this.visiableMap[targetId]) return true;
         var targetLayer = this.imageLayer.findSublayerById(targetId);
         var currentLayer = this.imageLayer.findSublayerById(this.currentSubLayer);
-        this.visiableMap[this.currentSubLayer] = false;
-        this.visiableMap[targetId] = true;
         if (targetLayer) {
             if (currentLayer) {
                 currentLayer.visible = false;
+            } else {
+                this.visiableMap[this.currentSubLayer] = false;
             }
             targetLayer.visible = true;
-            this.currentSubLayer = targetId;
+            this.visiableMap[targetId] = targetLayer.visible;
             return true;
         } else {
             this.visiableMap[targetId] = false;
         }
+
+        this.currentSubLayer = targetId;
         return false;
     }
 
