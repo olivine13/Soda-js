@@ -2,7 +2,7 @@
 	<div [hidden]="mode!='road'" class="toolbar">
 		<div class="timeBar">
 			<h2>{{WEEKDAY[weather?.week]}}</h2>
-			<h3>{{systemTime?.getHours()}}:{{systemTime?.getMinutes()}}</h3>
+			<h3 hidden="hidden">{{systemTime?.getHours()}}:{{systemTime?.getMinutes()}}</h3>
 			<hr>
 			<ngb-timepicker [(ngModel)]="time" [spinners]="spinners"></ngb-timepicker>
 		</div>

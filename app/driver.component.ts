@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit ,DoCheck} from '@angular/core';
+import { Component, ElementRef, OnInit, DoCheck } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Logger } from './logger.service';
@@ -18,7 +18,7 @@ import { AlertManager } from './alert.manager';
     templateUrl: "app/html/driver.html",
     styleUrls: ["app/css/app.css"]
 })
-export class DriverComponent implements OnInit , DoCheck{
+export class DriverComponent implements OnInit, DoCheck {
 
     username: string;
     id: string;
@@ -43,8 +43,9 @@ export class DriverComponent implements OnInit , DoCheck{
         this._mapService.initMap("map", "streets-night-vector");
 
         this.webService.getDriver(this.id)
-            .subscribe(driver => {
-                this.driver = driver;
+            .flatMap(driver => this.webService.getRoadBean(driver.id))
+            .subscribe(road => {
+                this.driver.roadList.push(road);
             });
     }
 

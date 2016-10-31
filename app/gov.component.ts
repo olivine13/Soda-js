@@ -142,28 +142,50 @@ export class GovComponent implements OnInit {
         if (this.companyname) {
             //显示当前搜索企业
             var flag: boolean = false;
-
-            for (var i = 0; i < this.rateChart.series[0].data.length; i++) {
-                this.rateChart.series[0].removePoint(i);
-                this.accidentChart.series[0].removePoint(i);
-            }
-            Observable.from(this.companyList)
-                .filter(company => company.name === this.companyname && !flag)
-                .mergeMap(company => {
+            this.companyList = [];
+            this.webService.getCompanies()
+                .finally(() => {
+                    if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应企业' });
+                })
+                .flatMap(list => Observable.from(list))
+                .filter(company => company.name === this.companyname)
+                .take(1)
+                .subscribe(company => {
                     this.selectCompany = company;
                     flag = true;
-                    return this.webService.getCompanyInfo(company.id, 1, 8)
-                })
-                .mergeMap(list => Observable.from(list))
-                .subscribe(info => {
-                    this.rateChart.series[0].addPoint([info.month, info.rate]);
-                    this.accidentChart.series[0].addPoint([info.month, info.accident]);
-                }, () => {
-                    if (!flag) this._alertManager.openAlert({ id: 1, type: 'info', message: '没有找到对应企业' });
+                    this.companyList.push(company);
                 });
+            // for (var i = 0; i < this.rateChart.series[0].data.length; i++) {
+            //     this.rateChart.series[0].removePoint(i);
+            //     this.accidentChart.series[0].removePoint(i);
+            // }
+            // Observable.from(this.companyList)
+
+            //     .filter(company => company.name === this.companyname)
+            //     .take(1)
+            //     .subscribe(company => {
+            //         this.selectCompany = company;
+            //         flag = true;
+            //         return this.webService.getCompanyInfo(company.id, 1, 8)
+            //     });
+            // .mergeMap(list => Observable.from(list))
+            // .subscribe(info => {
+            //     this.rateChart.series[0].addPoint([info.month, info.rate]);
+            //     this.accidentChart.series[0].addPoint([info.month, info.accident]);
+            // });
+
+            var index = ['16131', '14443', '26687', '23328', '26196'];
+            var id = index[Math.round(Math.random() * 5)];
+            console.debug(id);
+            this._mapService.showLayerByDriverId(id);
         } else {
             this.selectCompany = null;
-            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
+            this.companyList = [];
+            this.webService.getCompanies()
+                .flatMap(list => Observable.from(list))
+                .subscribe(company => {
+                    this.companyList.push(company);
+                });
         }
     }
 

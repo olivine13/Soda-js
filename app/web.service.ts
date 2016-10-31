@@ -47,6 +47,7 @@ export class WebService {
 			+ getStringWayFormat(1, 100, index))
 			.toPromise())
 			.flatMap(response => {
+				console.debug(response.url);
 				var size: number[] = response.json()['data']['navigatepageNums'];
 				return Observable.from(size);
 			})
