@@ -16,8 +16,12 @@ const url_base: string = 'http://222.73.7.71/';
 const url_driver: string = 'soda/drivers/page?';
 const url_road: string = 'soda/way_index/page?';
 
-function getStringFormat(pageNum, pageSize, index) {
+function getStringWayFormat(pageNum, pageSize, index) {
 	return 'pageNum=' + pageNum + '&pageSize=' + pageSize + '&way_index=' + index;
+}
+
+function getStringDriverFormat(pageNum, pageSize, index) {
+	return 'pageNum=' + pageNum + '&pageSize=' + pageSize + '&drivers=' + index;
 }
 
 @Injectable()
@@ -40,14 +44,14 @@ export class WebService {
 		index += 'yuliang:' + yuliang + ',';
 		index += 'time:' + time + '}';
 		return Observable.fromPromise(this.http.get(url_base + url_road
-			+ getStringFormat(1, 100, index))
+			+ getStringWayFormat(1, 100, index))
 			.toPromise())
 			.flatMap(response => {
 				var size: number[] = response.json()['data']['navigatepageNums'];
 				return Observable.from(size);
 			})
 			.flatMap(pageNum => {
-				return this.http.get(url_base + url_road + getStringFormat(pageNum, 100, index));
+				return this.http.get(url_base + url_road + getStringWayFormat(pageNum, 100, index));
 			})
 			.map(response => {
 				var list = response.json()['data']['list'];
@@ -89,14 +93,14 @@ export class WebService {
 		index += 'car_id:' + id;
 		if (name!=='') index += ',name:"' + name +'"';
 		index += '}';
-		return Observable.fromPromise(this.http.get(url_base + url_driver + index).toPromise())
+		return Observable.fromPromise(this.http.get(url_base + url_driver + getStringDriverFormat(1,100,index)).toPromise())
 			.flatMap(response => {
 				console.debug(response.url);
 				var size: number[] = response.json()['data']['navigatepageNums'];
 				return Observable.from(size);
 			})
 			.flatMap(pageNum => {
-				return this.http.get(url_base + url_road + getStringFormat(pageNum, 100, index));
+				return this.http.get(url_base + url_driver + getStringDriverFormat(pageNum, 100, index));
 			})
 			.map(response => {
 				var roadList: RoadBean[] = [];
@@ -252,13 +256,13 @@ export class WebService {
 	}
 
 	getCars(): Observable<Car[]> {
-		return this.http.get(url_base + url_driver + getStringFormat(1, 10, '{}'))
+		return this.http.get(url_base + url_driver + getStringDriverFormat(1, 100, '{}'))
 			.flatMap(response => {
 				var size: number[] = response.json()['data']['navigatepageNums'];
 				return Observable.from(size);
 			})
 			.flatMap(pageNum => {
-				return this.http.get(url_base + url_road + getStringFormat(pageNum, 10, '{}'));
+				return this.http.get(url_base + url_driver + getStringDriverFormat(pageNum, 100, '{}'));
 			})
 			.map(response => {
 				var carList: Car[] = [];
