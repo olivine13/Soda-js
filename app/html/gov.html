@@ -7,17 +7,17 @@
 			<ngb-timepicker [(ngModel)]="time" [spinners]="spinners"></ngb-timepicker>
 		</div>
 		<hr>
-		<div [(ngModel)]="weatherChecked" ngbRadioGroup name="radioBasic">
+		<div ngbRadioGroup name="radioBasic" required [ngModel]="weatherChecked" (ngModelChange)="onPickTimeWithWeather(roadname,time.hour,$event)">
 			<label class="btn btn-primary">
-    			<input type="radio" value="sunny" (click)="onPickTimeWithWeather(roadname,time.hour,weatherChecked)">
+    			<input type="radio" value="sunny" >
 				<img src="app/images/weather0.png">
   			</label>
 			<label class="btn btn-primary">
-    			<input type="radio" value="rainy" (click)="onPickTimeWithWeather(roadname,time.hour,weatherChecked)">
+    			<input type="radio" value="rainy" >
 				<img src="app/images/weather1.png">
   			</label>
 			<label class="btn btn-primary">
-    			<input type="radio" value="medium-rainy" (click)="onPickTimeWithWeather(roadname,time.hour,weatherChecked)">
+    			<input type="radio" value="medium-rainy" >
 				<img src="app/images/weather2.png">
   			</label>
 		</div>

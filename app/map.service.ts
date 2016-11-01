@@ -74,7 +74,7 @@ export class MapService {
         if (this.visiableMap[targetId]) return true;
         var targetLayer = this.imageLayer.findSublayerById(targetId);
         var currentLayer = this.imageLayer.findSublayerById(this.currentSubLayer);
-        console.debug('layer:'+targetLayer);
+        console.debug('targetId:' + targetId + ' currentSubLayer:' + this.currentSubLayer);
         if (targetLayer) {
             if (currentLayer) {
                 currentLayer.visible = false;
@@ -82,12 +82,12 @@ export class MapService {
             this.visiableMap[this.currentSubLayer] = false;
             targetLayer.visible = true;
             this.visiableMap[targetId] = targetLayer.visible;
+
+            this.currentSubLayer = targetId;
             return true;
         } else {
             this.visiableMap[targetId] = false;
         }
-
-        this.currentSubLayer = targetId;
         return false;
     }
 

@@ -123,6 +123,7 @@ export class GovComponent implements OnInit {
     }
 
     onPickTimeWithWeather(name, time, weather): void {
+        this.weatherChecked = weather;
         if (this._mapService.showLayerByTimeWithWeather(time, weather)) {
             this._alertManager.openAlert({ id: 1, type: 'success', message: '正在刷新地图，请稍等' });
         } else {
