@@ -43,12 +43,8 @@ export class DriverComponent implements OnInit, DoCheck {
         this._mapService.initMap("map", "streets-night-vector");
 
         this.webService.getDriver(this.id)
-            .flatMap(driver => {
+            .subscribe(driver => {
                 this.driver = driver;
-                return this.webService.getRoadBean(driver.id);
-            })
-            .subscribe(road => {
-                this.driver.roadList.push(road);
             });
     }
 
