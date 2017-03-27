@@ -47,7 +47,7 @@ export class MapService {
         this.mapView = new MapView({
             container: div,
             map: this.map,
-            center: [121.43029797761215, 31.277403882152259],
+            center: [123.2960721, 41.8055015],
             zoom: 10
         });
     }
