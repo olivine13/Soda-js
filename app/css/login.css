@@ -34,12 +34,14 @@ a{
     /* overflow-x: hidden; */
     box-sizing: border-box;
 }
-logo{
+#logoimage{
     display: block;
-    height: auto;
-    width: auto;
-    margin: 0 auto 30px auto;
-    background: url(app/images/logo-w.png);
+    position: absolute;
+    margin: 30px auto 50px auto;
+}
+#logoimage img{
+    width: 30%;
+    height: 30%;
 }
 .message {
     margin: 10px 0 0 -58px;

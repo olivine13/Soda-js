@@ -87,14 +87,14 @@
 		</div>
 	</div>
 	<div id="map"></div>
-	<div class="rate" [hidden]="mode!='road'">
+	<div class="rate" [hidden]="mode!='road'||!showRoadRateBar">
 		<p style="-webkit-text-fill-color: #000">路段安全指数</p>
 		<p style="background-color:#42e806">A</p>
 		<p style="background-color:#96FF60">B</p>
 		<p style="background-color:#FFFF0B">C</p>
 		<p style="background-color:#FB0006">D</p>
 	</div>
-	<div class="rate" [hidden]="mode!='company'">
+	<div class="rate" [hidden]="mode!='company'||!showCompanyRateBar">
 		<p style="-webkit-text-fill-color: #000">企业安全指数</p>
 		<p style="background-color:#42e806">A</p>
 		<p style="background-color:#96FF60">B</p>
