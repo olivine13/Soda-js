@@ -44,9 +44,6 @@ export class GovComponent implements OnInit {
     spinners = true;
     weatherChecked = "sunny";
 
-    showRoadRateBar:boolean = false;
-    showCompanyRateBar:boolean = false;
-
     constructor(private log: Logger,
         private webService: WebService,
         private route: ActivatedRoute,
@@ -137,7 +134,6 @@ export class GovComponent implements OnInit {
     onShowRoad(name, time, weather): void {
         if (name) {
             this.getData(name, time, weather);
-            this.showRoadRateBar = true;
         } else {
             this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
         }
@@ -192,7 +188,6 @@ export class GovComponent implements OnInit {
                     this.companyList.push(company);
                 });
         }
-        this.showCompanyRateBar = true;
     }
 
     onSortCompany(type): void {
