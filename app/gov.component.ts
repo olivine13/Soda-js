@@ -108,7 +108,10 @@ export class GovComponent implements OnInit {
         //显示默认图层
         Observable.of(this)
             .delay(2000)
-            .subscribe(a => a._mapService.showLayerByTimeWithWeather(this.time.hour, this.weatherChecked));
+            .subscribe(a => {
+                a._mapService.showLayerByTimeWithWeather(this.time.hour, this.weatherChecked);
+                a.getData(this.roadname,this.time.hour,this.weatherChecked);
+            });
     }
 
     getData(name, time, weather): void {
@@ -132,11 +135,11 @@ export class GovComponent implements OnInit {
     }
 
     onShowRoad(name, time, weather): void {
-        if (name) {
+        // if (name) {
             this.getData(name, time, weather);
-        } else {
-            this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
-        }
+        // } else {
+        //     this._alertManager.openAlert({ id: 1, type: 'danger', message: '输入不能为空' });
+        // }
     }
 
     onShowCompany(): void {

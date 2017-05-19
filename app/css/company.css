@@ -1,9 +1,9 @@
 .result{
     padding-left: 300px;
     bottom: 0px;
+    height: auto;
     width: 100%;
-    overflow: scroll;
-    position: absolute;
+    position: fixed;
     -webkit-text-fill-color: #fff;
 }
 .result thead{
@@ -11,6 +11,9 @@
 }
 .result tbody{
     -webkit-text-fill-color: #000;
+}
+.result .table{
+    margin-bottom: 0px;
 }
 #driverInfo table th {
     background-color: #4b87cb;
