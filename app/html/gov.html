@@ -35,9 +35,9 @@
 				<caption>路段安全指数</caption>
 				<thead>
 					<tr>
-						<th>路段ID</th>
-						<th>路段名称</th>
-						<th>安全指数</th>
+						<th style="padding-left: 4px;padding-top: 8px;padding-bottom: 8px;">路段ID</th>
+						<th style="padding-left: 4px;padding-top: 8px;padding-bottom: 8px;">路段名称</th>
+						<th style="padding-left: 4px;padding-top: 8px;padding-bottom: 8px;">安全指数</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -71,9 +71,9 @@
 				<caption>企业安全指数</caption>
 				<thead>
 					<tr>
-						<th>企业名称</th>
-						<th>安全指数</th>
-						<th>事故数</th>
+						<th style="padding-left: 4px;padding-top: 8px;padding-bottom: 8px;">企业名称</th>
+						<th style="padding-left: 4px;padding-top: 8px;padding-bottom: 8px;">安全指数</th>
+						<th style="padding-left: 4px;padding-top: 8px;padding-bottom: 8px;">事故数</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -100,10 +100,5 @@
 		<p style="background-color:#96FF60">B</p>
 		<p style="background-color:#FFFF0B">C</p>
 		<p style="background-color:#FB0006">D</p>
-	</div>
-	<div class="result" id="carInfo" hidden="hidden">
-		<!--[hidden]="selectCompany==null&&mode!='company'">-->
-		<chart [options]="rateChartOptions" (load)="saveRateChartInstance($event.context)"></chart>
-		<chart [options]="accidentChartOptions" (load)="saveAccidentChartInstance($event.context)"></chart>
 	</div>
 </div>

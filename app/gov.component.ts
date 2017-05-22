@@ -3,8 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import './rx-operators';
 
-import HighchartsChartObject from 'highcharts';
-import HighchartsObject from 'highcharts';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
 import { MapService } from './map.service';
@@ -32,10 +30,6 @@ export class GovComponent implements OnInit {
     roadname: string;
 
     selectCompany: Company;
-    rateChartOptions: HighchartsOptions;
-    rateChart: HighchartsChartObject;
-    accidentChartOptions: HighchartsOptions;
-    accidentChart: HighchartsChartObject;
 
     systemTime: Date = new Date();
 
@@ -49,46 +43,6 @@ export class GovComponent implements OnInit {
         private route: ActivatedRoute,
         private _mapService: MapService,
         private _alertManager: AlertManager) {
-        this.rateChartOptions = {
-            title: { text: '企业安全指数' },
-            credits: {
-                href: '',
-                text: 'by 低碳先锋队'
-            },
-            series: [{
-                name: '安全指数'
-            }],
-            xAxis: {
-                title: {
-                    text: '月份'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: '安全指数'
-                }
-            }
-        };
-        this.accidentChartOptions = {
-            title: { text: '企业事故数' },
-            credits: {
-                href: '',
-                text: 'by 低碳先锋队'
-            },
-            series: [{
-                name: '事故数'
-            }],
-            xAxis: {
-                title: {
-                    text: '月份'
-                }
-            },
-            yAxis: {
-                title: {
-                    text: '事故数'
-                }
-            }
-        };
     }
 
     ngOnInit() {
@@ -109,7 +63,9 @@ export class GovComponent implements OnInit {
         Observable.of(this)
             .delay(2000)
             .subscribe(a => {
-                a._mapService.showLayerByTimeWithWeather(this.time.hour, this.weatherChecked);
+                //默认显示12、13图层
+                a._mapService.showLayer(12);
+                a._mapService.showLayer(13);
                 a.getData(this.roadname,this.time.hour,this.weatherChecked);
             });
     }
@@ -196,14 +152,6 @@ export class GovComponent implements OnInit {
     onSortCompany(type): void {
         //如果为0按安全指数排序，否则按事故数排序
         this.companyList.sort(type == 0 ? (n1, n2) => n1.rate - n2.rate : (n1, n2) => n1.accident - n2.accident);
-    }
-
-    saveRateChartInstance(instance) {
-        this.rateChart = instance;
-    }
-
-    saveAccidentChartInstance(instance) {
-        this.accidentChart = instance;
     }
 
 }

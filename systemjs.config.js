@@ -24,9 +24,7 @@
             // other libraries
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
             'rxjs': 'npm:rxjs',
-            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api',
-            'angular2-highcharts': 'npm:angular2-highcharts',
-            'highcharts/highstock.src': 'https://cdn.rawgit.com/highcharts/highcharts-dist/v4.2.1/highstock.js'
+            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api'
 
         },
         // packages tells the System loader how to load when no filename and/or no extension
@@ -36,10 +34,6 @@
                 defaultExtension: 'js'
             },
             rxjs: {
-                defaultExtension: 'js'
-            },
-            'angular2-highcharts': {
-                main: './index.js',
                 defaultExtension: 'js'
             },
             'angular-in-memory-web-api': {
