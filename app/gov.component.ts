@@ -64,8 +64,6 @@ export class GovComponent implements OnInit {
             .delay(2000)
             .subscribe(a => {
                 //默认显示12、13图层
-                a._mapService.showLayer(12);
-                a._mapService.showLayer(13);
                 a.getData(this.roadname,this.time.hour,this.weatherChecked);
             });
     }
