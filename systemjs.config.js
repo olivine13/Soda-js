@@ -24,6 +24,7 @@
             // other libraries
             '@ng-bootstrap/ng-bootstrap': 'npm:@ng-bootstrap/ng-bootstrap/bundles/ng-bootstrap.js',
             'rxjs': 'npm:rxjs',
+            'rxjs-compat': 'npm:rxjs-compat',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api'
 
         },
@@ -31,9 +32,20 @@
         packages: {
             app: {
                 main: './main.js',
-                defaultExtension: 'js'
+                defaultExtension: 'js',
             },
             rxjs: {
+                main: "index.js",
+                defaultExtension: 'js'
+            },
+            'rxjs/ajax': { main: 'index.js', defaultExtension: 'js' },
+            'rxjs/internal': { main: 'index.js', defaultExtension: 'js'},
+            'rxjs/internal-compatibility': { main: 'index.js', defaultExtension: 'js'},
+            'rxjs/operators': { main: 'index.js', defaultExtension: 'js' },
+            'rxjs/testing': { main: 'index.js', defaultExtension: 'js' },
+            'rxjs/webSocket': { main: 'index.js', defaultExtension: 'js' },
+            'rxjs-compat': {
+                main: "index.js",
                 defaultExtension: 'js'
             },
             'angular-in-memory-web-api': {

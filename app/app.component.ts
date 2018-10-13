@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { Logger } from './logger.service';
 import { WebService } from './web.service';
 
-import { Observable } from 'rxjs/Observable';
 import { IAlert, AlertManager } from './alert.manager';
 
 @Component({
