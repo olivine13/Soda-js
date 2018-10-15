@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Logger } from './logger.service';
 import Collection from 'esri/core/Collection';
 import Basemap from 'esri/Basemap';
 import Map from 'esri/Map';
@@ -28,6 +29,8 @@ export class MapService {
 
     visiableMap: boolean[] = [];
 
+    constructor(private log: Logger) {}
+
     initMap(div, style = "osm"): void {
         this.map = new Map({
             basemap: style
@@ -40,6 +43,7 @@ export class MapService {
                 }
             }
         });
+        this.log.d(MAP_SERVICE_URL);
         this.map.add(this.imageLayer = new MapImageLayer({
             url: MAP_SERVICE_URL
         }));
