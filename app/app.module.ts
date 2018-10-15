@@ -26,25 +26,41 @@ import './rx-operators';
 		NgbModule.forRoot(),
 		RouterModule.forRoot([
 			{
-				path: '',
-				redirectTo: '/login',
-				pathMatch: 'full'
-			},
-			{
 				path: 'login',
-				component: LoginComponent
+				redirectTo: '/newlogin',
 			},
 			{
 				path: 'driver',
-				component: DriverComponent
+				redirectTo: '/newdriver',
 			},
 			{
 				path: "gov/:mode",
-				component: GovComponent
+				redirectTo: '/newgov/:mode',
 			},
 			{
 				path: "company",
+				redirectTo: '/newcompany',
+			},
+			{
+				path: 'newlogin',
+				component: LoginComponent,
+			},
+			{
+				path: 'newdriver',
+				component: DriverComponent
+			},
+			{
+				path: "newgov/:mode",
+				component: GovComponent
+			},
+			{
+				path: "newcompany",
 				component: CompanyComponent
+			},
+			{
+				path: '',
+				redirectTo: '/newlogin',
+				pathMatch: 'full'
 			}
 		])
 	],
