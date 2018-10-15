@@ -9,7 +9,7 @@ import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import MapImageLayer from 'esri/layers/MapImageLayer';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 
-const MAP_SERVICE_URL = 'http://222.73.7.71/arcgis/rest/services/SafetyMap/MapServer';
+const MAP_SERVICE_URL = 'http://222.73.7.71/arcgis/rest/services/shenyangnew/MapServer';
 const LAY_ID_MAP = {
     'car-position': 0,
     'sunny-8': 5, 'sunny-13': 1, 'sunny-18': 3, 'rainy-8': 6, 'rainy-13': 2, 'rainy-18': 4,
