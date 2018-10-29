@@ -132,8 +132,8 @@ export class GovComponent implements OnInit {
             //     this.accidentChart.series[0].addPoint([info.month, info.accident]);
             // });
 
-            var index = ['16131', '14443', '26687', '23328', '26196'];
-            var id = index[Math.round(Math.random() * 5)];
+            var index = ['14443', '16131', '26196'];
+            var id = index[Math.round(Math.random() * 4)];
             console.debug(id);
             this._mapService.showLayerByDriverId(id);
         } else {

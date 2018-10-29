@@ -10,11 +10,12 @@ import PictureMarkerSymbol from 'esri/symbols/PictureMarkerSymbol';
 import MapImageLayer from 'esri/layers/MapImageLayer';
 import GraphicsLayer from 'esri/layers/GraphicsLayer';
 
-const MAP_SERVICE_URL = 'http://222.73.7.71/arcgis/rest/services/shenyangnew/MapServer';
+const MAP_SERVICE_URL = 'http://222.73.7.71/arcgis/rest/services/TianjinGIS/MapServer';
 const LAY_ID_MAP = {
-    'car-position': 0,
-    'sunny-8': 5, 'sunny-13': 1, 'sunny-18': 3, 'rainy-8': 6, 'rainy-13': 2, 'rainy-18': 4,
-    'car-16131': 7, 'car-14443': 8, 'car-26687': 9, 'car-23328': 10, 'car-26196': 11
+    'CarPosition': 0,
+    'Sunny8': 7, 'Sunny10': 5,
+    'Rainy8': 6, 'Rainy10': 4,
+    '14443': 1, '16131': 2, '26196': 3
 };
 
 @Injectable()
@@ -51,19 +52,19 @@ export class MapService {
         this.mapView = new MapView({
             container: div,
             map: this.map,
-            center: [123.2960721, 41.8055015],
+            center: [117.20, 39.12],
             zoom: 10
         });
     }
 
-    showLayerByTimeWithWeather(time = 8, weather = "sunny"): boolean {
-        if (!LAY_ID_MAP[weather + '-' + time]) return false;
-        return this.showLayer(LAY_ID_MAP[weather + '-' + time]);
+    showLayerByTimeWithWeather(time = 8, weather = "Sunny"): boolean {
+        if (!LAY_ID_MAP[weather + time]) return false;
+        return this.showLayer(LAY_ID_MAP[weather + time]);
     }
 
     showLayerByDriverId(id): boolean {
-        if (!LAY_ID_MAP['car-' + id]) return false;
-        return this.showLayer(LAY_ID_MAP['car-' + id]);
+        if (!LAY_ID_MAP[id]) return false;
+        return this.showLayer(LAY_ID_MAP[id]);
     }
 
     showLayerByName(name): boolean {

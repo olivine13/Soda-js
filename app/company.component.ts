@@ -52,9 +52,9 @@ export class CompanyComponent implements OnInit, DoCheck {
 
     ngDoCheck(): void {
         if (this.mode === 'car') {
-            this._mapService.showLayerByName('car-position');
+            this._mapService.showLayerByName('CarPosition');
         } else if (this.mode === 'driver') {
-            this._mapService.hideLayerByName('car-position');
+            this._mapService.hideLayerByName('CarPosition');
         }
     }
 

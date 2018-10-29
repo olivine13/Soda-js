@@ -37,39 +37,44 @@ export class WebService {
 		return Observable.of(new SystemInfo(new Date().getDay(), 8, "sunny"));
 	}
 
-	getRoads(name, time=8,yuliang = 0): Observable<Road[]> {
-		var roadList: Road[] = [];
-		var index: string = '{';
-		if (name) index += 'name:"' + name + '",';
-		index += 'yuliang:' + yuliang + ',';
-		index += 'time:' + time + '}';
-		return Observable.fromPromise(this.http.get(url_base + url_road
-			+ getStringWayFormat(1, 100, index))
-			.toPromise())
-			.flatMap(response => {
-				console.debug(response.url);
-				var size: number[] = response.json()['data']['navigatepageNums'];
-				return Observable.from(size);
-			})
-			.flatMap(pageNum => {
-				return this.http.get(url_base + url_road + getStringWayFormat(pageNum, 100, index));
-			})
+	getRoads(name, time = 8, yuliang = 0): Observable<Road[]> {
+		// var roadList: Road[] = [];
+		// var index: string = '{';
+		// if (name) index += 'name:"' + name + '",';
+		// index += 'yuliang:' + yuliang + ',';
+		// index += 'time:' + time + '}';
+		// return Observable.fromPromise(this.http.get(url_base + url_road
+		// 	+ getStringWayFormat(1, 100, index))
+		// 	.toPromise())
+		// 	.flatMap(response => {
+		// 		console.debug(response.url);
+		// 		var size: number[] = response.json()['data']['navigatepageNums'];
+		// 		return Observable.from(size);
+		// 	})
+		// 	.flatMap(pageNum => {
+		// 		return this.http.get(url_base + url_road + getStringWayFormat(pageNum, 100, index));
+		// 	})
+		// 	.map(response => {
+		// 		var list = response.json()['data']['list'];
+		// 		for (var i = 0; i < list.length; i++) {
+		// 			roadList.push(new Road(list[i]['wid'], list[i]['name'] === '' ? '路段升级中' : list[i]['name'], list[i]['score']));
+		// 		}
+		// 		return roadList;
+		// 	});
+		return this.http.get('app/json/road_info.json')
 			.map(response => {
-				var list = response.json()['data']['list'];
-				for (var i = 0; i < list.length; i++) {
-					roadList.push(new Road(list[i]['wid'], list[i]['name'] === '' ? '路段升级中' : list[i]['name'], list[i]['score']));
+				var roadList: Road[] = [];
+				var array = response.json();
+				for (var i = 0; i < array.length; i++) {
+					var o = array[i];
+					if (name == null || name == '') {
+						roadList.push(new Road(o['wid'], o['name'], o['score']));
+					} else if (name == o['name']) {
+						roadList.push(new Road(o['wid'], o['name'], o['score']));
+					}
 				}
 				return roadList;
-			});//.get('app/json/road_info.json'))
-		// .map(response => {
-		// 	var roadList: Road[] = [];
-		// 	var array = response.json();
-		// 	for (var i = 0; i < array.length; i++) {
-		// 		var o = array[i];
-		// 		roadList.push(new Road(o['wid'], o['name'], o['score']));
-		// 	}
-		// 	return roadList;
-		// })
+			});
 		// return this.http.get(url_base + url_road + getStringFormat(1, 10, '{}'))
 		// 	.flatMap(response => {
 		// 		var size: number[] = response.json()['data']['navigatepageNums'];
@@ -90,44 +95,56 @@ export class WebService {
 	}
 
 	getRoadBean(id, name = ''): Observable<RoadBean> {
-		var index: string = '{';
-		index += 'car_id:' + id;
-		if (name!=='') index += ',name:"' + name +'"';
-		index += '}';
-		return Observable.fromPromise(this.http.get(url_base + url_driver + getStringDriverFormat(1,100,index)).toPromise())
-			.flatMap(response => {
-				console.debug(response.url);
-				var size: number[] = response.json()['data']['navigatepageNums'];
-				return Observable.from(size);
-			})
-			.flatMap(pageNum => {
-				return this.http.get(url_base + url_driver + getStringDriverFormat(pageNum, 100, index));
-			})
+		return this.http.get('app/json/road_info.json')
 			.map(response => {
 				var roadList: RoadBean[] = [];
-				var list = response.json()['data']['list'];
-				for (var i = 0; i < list.length; i++) {
+				var list = response.json();
+				for (var i = 7; i < list.length - 1; i++) {
 					var o = list[i];
-					var bean: RoadBean = new RoadBean(o['wid'], parseFloat(o['score'].toFixed(2)));
+					var bean: RoadBean = new RoadBean(o['wid'], o['score']);
 					bean.name = o['name'] === '' ? '路段升级中' : o['name'];
 					roadList.push(bean);
 				}
 				return roadList;
 			})
 			.flatMap(road => Observable.from(road));
+		// var index: string = '{';
+		// index += 'car_id:' + id;
+		// if (name!=='') index += ',name:"' + name +'"';
+		// index += '}';
+		// return Observable.fromPromise(this.http.get(url_base + url_driver + getStringDriverFormat(1,100,index)).toPromise())
+		// 	.flatMap(response => {
+		// 		console.debug(response.url);
+		// 		var size: number[] = response.json()['data']['navigatepageNums'];
+		// 		return Observable.from(size);
+		// 	})
+		// 	.flatMap(pageNum => {
+		// 		return this.http.get(url_base + url_driver + getStringDriverFormat(pageNum, 100, index));
+		// 	})
+		// 	.map(response => {
+		// 		var roadList: RoadBean[] = [];
+		// 		var list = response.json()['data']['list'];
+		// 		for (var i = 0; i < list.length; i++) {
+		// 			var o = list[i];
+		// 			var bean: RoadBean = new RoadBean(o['wid'], parseFloat(o['score'].toFixed(2)));
+		// 			bean.name = o['name'] === '' ? '路段升级中' : o['name'];
+		// 			roadList.push(bean);
+		// 		}
+		// 		return roadList;
+		// 	})
+		// 	.flatMap(road => Observable.from(road));
 	}
 
 	getCompanies(): Observable<Company[]> {
 		return Observable.of([
-			new Company("00001", "滴滴出行", 87, 18),
-			new Company("00002", "人民优步", 76, 13),
-			new Company("00003", "易到用车", 62, 31),
-			new Company("00004", "微打车", 77, 12),
-			new Company("00005", "摇摇招车", 95, 8),
-			new Company("00006", "打车小秘", 80, 10),
-			new Company("00007", "一号专车", 78, 11),
-			new Company("00008", "罗技找车", 69, 26),
-			new Company("00009", "51打的", 71, 22)
+			new Company("00001", "滴滴出行", 85, 4),
+			new Company("00002", "优步中国", 85, 2),
+			new Company("00003", "神州专车", 84, 2),
+			new Company("00004", "美团打车", 83, 4),
+			new Company("00005", "首汽约车", 82, 3),
+			new Company("00006", "曹操专车", 79, 1),
+			new Company("00007", "易到", 78, 2),
+			new Company("00008", "一嗨租车", 77, 1)
 		]);
 	}
 
@@ -149,9 +166,9 @@ export class WebService {
 	}
 
 	//获取指定id司机信息
-	getDriver(id,name=''): Observable<Driver> {
+	getDriver(id, name = ''): Observable<Driver> {
 		var driver: Driver = new Driver(id, 87, 1, 1, "online", 10, id);
-		return this.getRoadBean(id,name)
+		return this.getRoadBean(id, name)
 			.map(road => {
 				driver.roadList.push(road);
 				return driver;
