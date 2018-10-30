@@ -103,7 +103,11 @@ export class WebService {
 					var o = list[i];
 					var bean: RoadBean = new RoadBean(o['wid'], o['score']);
 					bean.name = o['name'] === '' ? '路段升级中' : o['name'];
-					roadList.push(bean);
+					if(name == null || name == '') {
+						roadList.push(bean);
+					} else if(name == o['name']){
+						roadList.push(bean);
+					}
 				}
 				return roadList;
 			})

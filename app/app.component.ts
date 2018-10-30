@@ -51,24 +51,24 @@ export class AppComponent implements OnInit, DoCheck {
 
     onSwitch(): void {
         var url = this.location.path();
-        if (url.endsWith("/gov/company")) {
-            this.router.navigate(["/gov", "road"]);
-        } else if (url.endsWith("/gov/road")) {
-            this.router.navigate(["/gov", "company"]);
-        } else if (url.startsWith("/company") && url.includes("mode=driver")) {
+        if (url.endsWith("/newgov/company")) {
+            this.router.navigate(["/newgov", "road"]);
+        } else if (url.endsWith("/newgov/road")) {
+            this.router.navigate(["/newgov", "company"]);
+        } else if (url.startsWith("/newcompany") && url.includes("mode=driver")) {
             var request = this.getRequest(url);
             request['mode'] = 'car';
             let navigationExtras: NavigationExtras = {
                 queryParams: request
             };
-            this.router.navigate(["/company"], navigationExtras);
-        } else if (url.startsWith("/company") && url.includes("mode=car")) {
+            this.router.navigate(["/newcompany"], navigationExtras);
+        } else if (url.startsWith("/newcompany") && url.includes("mode=car")) {
             var request = this.getRequest(url);
             request['mode'] = 'driver';
             let navigationExtras: NavigationExtras = {
                 queryParams: request
             };
-            this.router.navigate(["/company"], navigationExtras);
+            this.router.navigate(["/newcompany"], navigationExtras);
         }
     }
 
